@@ -1,0 +1,13 @@
+.addrole-container {
+    margin-top: 100px;
+    width: 300px;
+    height: 400px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    gap: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
