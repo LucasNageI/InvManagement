@@ -1,12 +1,11 @@
 import React from "react"
 import { Routes, Route } from "react-router-dom"
-import Inventory from "./screens/Inventory"
-import Employees from "./screens/Employees"
-import Dashboard from "./screens/Dashboard"
 import Login from "./screens/Login"
 import Register from "./screens/Register"
-import AddRole from "./screens/AddRole"
 import NotFound from "./screens/NotFound"
+import Home from "./screens/Home"
+import { RecoveryPassword } from "./screens/RecoveryPassword"
+import { SetNewPassword } from "./screens/SetNewPassword"
 
 function App() {
   return (
@@ -17,10 +16,10 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
 
-            <Route path="/inventory" element={<Inventory />} />
-            <Route path="/employees" element={<Employees />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/addRole" element={<AddRole />} />
+            <Route path="/home" element={<Home />} />
+
+            <Route path="/recovery-password" element={<RecoveryPassword />} />
+            <Route path="/set-new-password" element={<SetNewPassword />} />
 
             <Route path="*" element={<NotFound />} />
       </Routes>

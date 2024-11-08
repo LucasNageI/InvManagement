@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/AddRole.css'
+import '../styles/component_styles/AddRole.css'
 
 const AddRole = () => {
   return (

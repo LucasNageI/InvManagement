@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/Register.css'
+import '../styles/screen_styles/Register.css'
 import { useState } from 'react'
 import { emailVerification } from '../helpers/emailVerification'
 import { passwordVerification } from '../helpers/passwordVerification'

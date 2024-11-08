@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../styles/Login.css'
+import '../styles/screen_styles/Login.css'
 import { emailVerification } from '../helpers/emailVerification'
 import { passwordVerification } from '../helpers/passwordVerification'
 import { Link } from "react-router-dom"
@@ -46,7 +46,7 @@ const Login = () => {
             </div>
             <div className='login-links'>
                 <Link to="/register">Don't have account?</Link>
-                <Link to="#">forgot-password?</Link>
+                <Link to="/recovery-password">Forgot password?</Link>
             </div>
             <button className='login-submit-button' type="submit">Login</button>
         </form>

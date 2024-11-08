@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/Employees.css'
+import '../styles/component_styles/Employees.css'
 
 const Employees = () => {
   return (
