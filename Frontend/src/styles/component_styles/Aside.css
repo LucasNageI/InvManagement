@@ -1,0 +1,104 @@
+/* Estilo general para pantallas grandes */
+
+
+.aside {
+    background-color: #131b4f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .aside-span {
+    display: none;
+  }
+
+.aside-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+.aside-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+li {
+  list-style: none;
+}
+
+.link {
+  color: white;
+  margin-bottom: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+i {
+  font-size: 20px;
+}
+
+.log-out {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Estilo para pantallas menores a 480px */
+@media (min-width: 480px) {
+    .aside {
+        background-color: #131b4f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: static; /* Por defecto, no es fijo */
+        width: 150px;
+        height: 100vh;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .aside-nav {
+        flex-direction: column;
+        align-items: start;
+      }
+      
+      .aside-list {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .aside-role-span {
+        font-size: 20px;
+        font-weight: bold;
+        color: aliceblue;
+      }
+
+      .aside-span {
+        display: block;
+        font-size: 16px;
+      }
+}

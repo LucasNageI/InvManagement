@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../styles/screen_styles/Login.css'
-import { emailVerification } from '../helpers/emailVerification'
-import { passwordVerification } from '../helpers/passwordVerification'
+import { emailVerification } from '../utils/emailVerification'
+import { passwordVerification } from '../utils/passwordVerification'
 import { Link } from "react-router-dom"
 
 const Login = () => {

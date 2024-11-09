@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../styles/screen_styles/RecoveryPassword.css'
 import { Link } from 'react-router-dom'
-import { emailVerification } from '../helpers/emailVerification'
+import { emailVerification } from '../utils/emailVerification'
 
 export const RecoveryPassword = () => {
 

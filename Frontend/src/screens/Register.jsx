@@ -1,10 +1,10 @@
 import React from 'react'
 import '../styles/screen_styles/Register.css'
 import { useState } from 'react'
-import { emailVerification } from '../helpers/emailVerification'
-import { passwordVerification } from '../helpers/passwordVerification'
-import { verifyPasswords } from '../helpers/verifyPasswords'
-import { usernameVerification } from '../helpers/usernameVerification'
+import { emailVerification } from '../utils/emailVerification'
+import { passwordVerification } from '../utils/passwordVerification'
+import { verifyPasswords } from '../utils/verifyPasswords'
+import { usernameVerification } from '../utils/usernameVerification'
 import { Link } from "react-router-dom"
 
 const Register = () => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../styles/screen_styles/SetNewPassword.css'
-import { verifyPasswords } from '../helpers/verifyPasswords'
-import { passwordVerification } from '../helpers/passwordVerification'
+import { verifyPasswords } from '../utils/verifyPasswords'
+import { passwordVerification } from '../utils/passwordVerification'
 import { Link } from 'react-router-dom'
 
 export const SetNewPassword = () => {
