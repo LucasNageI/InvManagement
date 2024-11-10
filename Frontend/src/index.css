@@ -4,9 +4,108 @@ body{
     margin: 0;
     padding: 0;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background-color: #EDEFF3;
+    background-color: rgb(18,18,18);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.h1-title {
+    color: #7581ff;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.form-inputs {
+    color: white;
+    width: 250px;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    border: 1px solid #7c7c7c71;
+    background-color: transparent;
+    padding: 3px;
+}
+
+.form-inputs:hover {
+    border: 1px solid #ffffff70;
+}
+
+.form-inputs:focus {
+    border: 1px solid #ffffff70;
+    overflow: hidden;
+    outline: none;
+}
+
+.form-inputs-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.form-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 10px;
+}
+
+.form-labels {
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.no-error {
+    display: none;
+}
+
+.form-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 10px;
+    color: #F3725F;
+    gap: 10px;
+    font-size: 15px;
+    height: 30px;
+}
+
+.form-links {
+    display: flex;
+    width: 250px;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+.form-link {
+    color: #7581ff;
+    font-weight: 100;
+    font-size: 15px;
+}
+
+.form-submit-button {
+    background-color: #7581ff;
+    border-radius: 50px;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 15px;
+    width: 246px;
+    height: 48px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 30px;
 }

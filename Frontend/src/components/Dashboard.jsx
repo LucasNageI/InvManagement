@@ -3,9 +3,7 @@ import '../styles/component_styles/Dashboard.css'
 
 const Dashboard = () => {
   return (
-    <main>
-        
-    </main>
+    <div>Dashboard</div>
   )
 }
 

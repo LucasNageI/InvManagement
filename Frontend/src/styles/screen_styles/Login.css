@@ -2,85 +2,11 @@
     margin-top: 100px;
     width: 300px;
     height: 500px;
-    background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
     gap: 50px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.h1-title {
-    color: #131B4F;
-    font-size: 40px;
-    font-weight: bold;
-}
-
-.login-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-}
-
-.login-input-container {
-    display: flex;
-    flex-direction: column;
-}
-
-.login-label {
-    color: #131B4F;
-    font-size: 20px;
-}
-
-.email-input {
-    width: 250px;
-    height: 30px;
-    border-radius: 5px;
-    border: none;
-    color: #131B4F;
-    background-color: #EDEFF3;
-    padding: 3px;
-}
-
-.password-input {
-    width: 250px;
-    height: 30px;
-    border-radius: 5px;
-    border: none;
-    color: #131B4F;
-    background-color: #EDEFF3;
-    padding: 3px;
-}
-
-.login-error {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0px 10px;
-    color: red;
-    font-size: 15px;
-    height: 30px;
-}
-
-.login-links {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: start;
-}
-
-.login-submit-button {
-    background-color: #131B4F;
-    color: #FFFFFF;
-    font-size: 15px;
-    width: 120px;
-    height: 30px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 30px;
-}

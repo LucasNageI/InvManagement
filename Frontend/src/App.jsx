@@ -1,29 +1,40 @@
 import React from "react"
-import { Routes, Route } from "react-router-dom"
-import Login from "./screens/Login"
-import Register from "./screens/Register"
-import NotFound from "./screens/NotFound"
-import Home from "./screens/Home"
-import { RecoveryPassword } from "./screens/RecoveryPassword"
-import { SetNewPassword } from "./screens/SetNewPassword"
+import { Routes, Route, Navigate } from "react-router-dom"
+
+import {
+  Landing,
+  AddCompany,
+  JoinCompany,
+  Company,
+  Home,
+  Login,
+  Register,
+  RecoveryPassword,
+  SetNewPassword,
+} from "./screens/index.js"
+
+import NotFound from "./components/NotFound.jsx"
 
 function App() {
   return (
-    <div>
-      <Routes>
-            <Route path="/" element={<Login />} />
+    <Routes>
+      <Route path="/" element={<Navigate to="/landing" />} /> 
+      <Route path="/landing" element={<Landing />} />
 
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
 
-            <Route path="/home/*" element={<Home />} />
+      <Route path="/recovery-password" element={<RecoveryPassword />} />
+      <Route path="/set-new-password" element={<SetNewPassword />} />
 
-            <Route path="/recovery-password" element={<RecoveryPassword />} />
-            <Route path="/set-new-password" element={<SetNewPassword />} />
+      <Route path="/home" element={<Home />} />
+      
+      <Route path="/add-company" element={<AddCompany />} />
+      <Route path="/join-company" element={<JoinCompany />} />
+      <Route path="/company/*" element={<Company />} />
 
-            <Route path="*" element={<NotFound />} />
-      </Routes>
-    </div>
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   )
 }
 

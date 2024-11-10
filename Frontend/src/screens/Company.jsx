@@ -3,6 +3,7 @@ import {
   Inventory,
   Employees,
   Dashboard,
+  NotFound,
 } from "../components/index.js"
 import "../styles/screen_styles/Company.css"
 import Aside from "../components/Aside.jsx"
@@ -18,6 +19,8 @@ const Company = () => {
             <Route path="/inventory" element={<Inventory />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/employees" element={<Employees />} />
+
+            <Route path="*" element={<NotFound />} />
 
            {/* <Route path="/profile" element={<Profile />} /> */}
        </Routes>

@@ -7,6 +7,7 @@ import { Link } from "react-router-dom"
 const Login = () => {
 
     const [errorMessage, setErrorMessage] = useState('')
+    const [errorClass, setErrorClass] = useState('no-error')
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -15,16 +16,21 @@ const Login = () => {
 
         const isEmailValid = emailVerification(email)
         const isPasswordValid = passwordVerification(password)
+
         
         if (!isEmailValid && !isPasswordValid) {
             setErrorMessage('Invalid email and password')
+            setErrorClass('form-error')
         } else if (!isEmailValid) {
             setErrorMessage('Invalid email')
+            setErrorClass('form-error')
         } else if (!isPasswordValid) {
             setErrorMessage("At least 8 Characters, Uppercase, Lowercase, Number, !@#$%^&*_");
+            setErrorClass('form-error')
         } else {
             console.log('Login successful')
             setErrorMessage('')
+            setErrorClass('no-error')
         }
           
     }
@@ -32,23 +38,26 @@ const Login = () => {
   return (
     <main className='login-container'>
         <h1 className='h1-title'>Member Login</h1>
-        <form className='login-form' onSubmit={handleSubmit}>
-            <div className='login-input-container'>
-                <label className='login-label'>Email:</label>
-                <input className='email-input' type="text" name="email" />
+        <form className='form' onSubmit={handleSubmit}>
+            <div className='form-inputs-container'>
+                <div className='form-input-container'>
+                    <label className='form-labels' >Email:</label>
+                    <input className='form-inputs' autoComplete="off" type="text" name="email" />
+                </div>
+                <div className='form-input-container'>
+                    <label className='form-labels' >Password:</label>
+                    <input className='form-inputs' autoComplete="off" type="password" name="password" />
+                </div>
             </div>
-            <div className='login-input-container'>
-                <label className='login-label'>Password:</label>
-                <input className='password-input' type="password" name="password" />
+            <div className={errorClass}>
+                <i className="bi bi-exclamation-triangle-fill"></i>
+                <p>{errorMessage}</p>
             </div>
-            <div className='login-error'>
-                <p className='login-error-message'>{errorMessage}</p>
+            <div className='form-links'>
+                <Link to="/register" className='form-link'>Don't have account?</Link>
+                <Link to="/recovery-password" className='form-link'>Forgot password?</Link>
             </div>
-            <div className='login-links'>
-                <Link to="/register">Don't have account?</Link>
-                <Link to="/recovery-password">Forgot password?</Link>
-            </div>
-            <button className='login-submit-button' type="submit">Login</button>
+            <button className='form-submit-button' type="submit">Login</button>
         </form>
     </main>
   )

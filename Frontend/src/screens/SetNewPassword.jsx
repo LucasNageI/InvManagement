@@ -4,9 +4,10 @@ import { verifyPasswords } from '../utils/verifyPasswords'
 import { passwordVerification } from '../utils/passwordVerification'
 import { Link } from 'react-router-dom'
 
-export const SetNewPassword = () => {
+const SetNewPassword = () => {
 
     const [errorMessage, setErrorMessage] = useState('')
+    const [errorClass, setErrorClass] = useState('no-error')
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -16,11 +17,14 @@ export const SetNewPassword = () => {
 
         if (!passwordVerification(password)) {
             setErrorMessage("At least 8 Characters, Uppercase, Lowercase, Number, !@#$%^&*_");
+            setErrorClass('form-error')
         } else if (!verifyPasswords(password, confirm_password)) {
             setErrorMessage("Passwords do not match");
+            setErrorClass('form-error')
         } else {
             console.log("All validations passed, form submitted successfully.")
             setErrorMessage("")
+            setErrorClass('no-error')
         }
 
 
@@ -28,25 +32,27 @@ export const SetNewPassword = () => {
 
   return (
     <main className='set-new-password-container'>
-        <form onSubmit={handleSubmit} className='set-new-password-form'>
-            <h1 className='h1-title'>Set New Password</h1>
-            <div className='set-new-password-input-container'>
-                <label className='set-new-password-label' htmlFor="password">New password</label>
-                <input className='password-input' type="password" id="password" name="password" required />
+        <h1 className='h1-title set-new-password-title'>Set New Password</h1>
+        <form onSubmit={handleSubmit} className='form'>
+            <div className='form-input-container'>
+                <label className='form-labels' htmlFor="password">New password</label>
+                <input className='form-inputs' type="password" id="password" name="password" required />
             </div>
-            <div className='confirm-new-password-input-container'>
-                <label className='set-new-password-label' htmlFor="password">Confirm new password</label>
-                <input className='password-input' type="password" id="confirm-password" name="confirm-password" required />
+            <div className='form-input-container'>
+                <label className='form-labels' htmlFor="password">Confirm new password</label>
+                <input className='form-inputs' type="password" id="confirm-password" name="confirm-password" required />
             </div>
-            <div className='set-new-password-error'>
-                <p className='set-new-password-error-message'>{errorMessage}</p>
+            <div className={errorClass}>
+                <p>{errorMessage}</p>
             </div>
-            <div>
-                <Link to="/login">Back to login form</Link>
+            <div className='form-links'>
+                <Link to="/login" className='form-link'>Back to login form</Link>
             </div>
-            <button className='set-new-password-submit-button' type="submit">Done</button>
+            <button className='form-submit-button' type="submit">Done</button>
         </form>
     </main>
 
   )
 }
+
+export default SetNewPassword
