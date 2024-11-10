@@ -3,10 +3,10 @@ import {
   Inventory,
   Employees,
   Dashboard,
+  Aside,
   NotFound,
 } from "../components/index.js"
 import "../styles/screen_styles/Company.css"
-import Aside from "../components/Aside.jsx"
 import { Route, Routes } from "react-router-dom"
 
 const Company = () => {

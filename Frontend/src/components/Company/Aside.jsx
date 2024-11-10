@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../styles/component_styles/Aside.css";
+import "../../styles/component_styles/Company/Aside.css";
 
 const Aside = () => {
   return (

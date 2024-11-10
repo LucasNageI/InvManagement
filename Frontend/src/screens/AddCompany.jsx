@@ -65,6 +65,7 @@ const AddCompany = () => {
             </div>
             <div className='form-links'>
                 <Link to="/join-company" className='form-link'>I want to join a company</Link>
+                <Link to="/home" className='form-link'>Back to Home</Link>
             </div>
             <button className='form-submit-button' type="submit">Create</button>
         </form>
