@@ -1,7 +1,10 @@
 import React, { useState } from "react"
 import "../../styles/component_styles/Company/Employees.css"
+import { usernameVerification, isPositiveNumber } from "../../utils/index.js"
 
 const Employees = () => {
+    const [errorMessage, setErrorMessage] = useState("")
+  const [errorClass, setErrorClass] = useState("no-error")
   const [searchQuery, setSearchQuery] = useState("")
   const [employees, setEmployees] = useState([
     {
@@ -36,136 +39,48 @@ const Employees = () => {
       years_worked: 3,
       state: "Inactive",
     },
-    {
-      id: 5,
-      full_name: "David Wilson",
-      job: "Marketing Coordinator",
-      salary: 4500,
-      years_worked: 2,
-      state: "Active",
-    },
-    {
-      id: 6,
-      full_name: "Sophia Martinez",
-      job: "Customer Service Representative",
-      salary: 4800,
-      years_worked: 3,
-      state: "Inactive",
-    },
-    {
-      id: 7,
-      full_name: "Daniel Anderson",
-      job: "IT Technician",
-      salary: 5200,
-      years_worked: 4,
-      state: "Active",
-    },
-    {
-      id: 8,
-      full_name: "Olivia Thompson",
-      job: "Product Manager",
-      salary: 5700,
-      years_worked: 3,
-      state: "Inactive",
-    },
-    {
-      id: 9,
-      full_name: "Matthew Johnson",
-      job: "Software Developer",
-      salary: 5000,
-      years_worked: 2,
-      state: "Active",
-    },
-    {
-      id: 10,
-      full_name: "Ava Davis",
-      job: "Data Scientist",
-      salary: 5500,
-      years_worked: 3,
-      state: "Inactive",
-    },
-    {
-      id: 11,
-      full_name: "James Wilson",
-      job: "Operations Manager",
-      salary: 6000,
-      years_worked: 4,
-      state: "Active",
-    },
-    {
-      id: 12,
-      full_name: "Sophia Martinez",
-      job: "Customer Service Representative",
-      salary: 4800,
-      years_worked: 3,
-      state: "Inactive",
-    },
-    {
-      id: 13,
-      full_name: "Daniel Anderson",
-      job: "IT Technician",
-      salary: 5200,
-      years_worked: 4,
-      state: "Active",
-    },
-    {
-      id: 14,
-      full_name: "Olivia Thompson",
-      job: "Product Manager",
-      salary: 5700,
-      years_worked: 3,
-      state: "Inactive",
-    },
-    {
-      id: 15,
-      full_name: "Matthew Johnson",
-      job: "Software Developer",
-      salary: 5000,
-      years_worked: 2,
-      state: "Active",
-    },
-    {
-      id: 16,
-      full_name: "Ava Davis",
-      job: "Data Scientist",
-      salary: 5500,
-      years_worked: 3,
-      state: "Inactive",
-    },
-    {
-      id: 17,
-      full_name: "James Wilson",
-      job: "Operations Manager",
-      salary: 6000,
-      years_worked: 4,
-      state: "Active",
-    },
-    {
-      id: 18,
-      full_name: "Sophia Martinez",
-      job: "Customer Service Representative",
-      salary: 4800,
-      years_worked: 3,
-      state: "Inactive",
-    },
-    {
-      id: 19,
-      full_name: "Daniel Anderson",
-      job: "IT Technician",
-      salary: 5200,
-      years_worked: 4,
-      state: "Active",
-    },
-    {
-      id: 20,
-      full_name: "Olivia Thompson",
-      job: "Product Manager",
-      salary: 5700,
-      years_worked: 3,
-      state: "Inactive",
-    },
   ])
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    const full_name = e.target.full_name.value
+    const job = e.target.job.value
+    const salary = e.target.salary.value
+    const years_worked = e.target.years_worked.value
+
+    const isFullNameValid = usernameVerification(full_name)
+    const isJobValid = usernameVerification(job)
+    const isSalaryValid = isPositiveNumber(salary)
+    const isYearsWorkedValid = isPositiveNumber(years_worked)
+
+    if (!isFullNameValid) {
+      setErrorClass("form-error")
+      setErrorMessage("Invalid name")
+    } else if (!isJobValid) {
+      setErrorClass("form-error")
+      setErrorMessage("Invalid job name")
+    } else if (!isSalaryValid) {
+      setErrorClass("form-error")
+      setErrorMessage("Invalid number of salary")
+    } else if (!isYearsWorkedValid) {
+      setErrorClass("form-error")
+        setErrorMessage("Invalid number of years worked")
+    } else {
+      const newEmployee = {
+        id: employees.length + 1,
+        full_name,
+        job,
+        salary,
+        years_worked,
+        state: "Active",
+      }
+      setEmployees([...employees, newEmployee])
+      setErrorClass("no-error")
+      setErrorMessage("")
+      e.target.reset()
+    }
+  }
   const filteredEmployees = employees.filter((employee) =>
     employee.full_name.toLowerCase().includes(searchQuery.toLowerCase())
   )
@@ -228,36 +143,40 @@ const Employees = () => {
       </div>
 
       <h2 className="h2-title">Add Employee</h2>
-      <form className="employees-form">
+      <form onSubmit={handleSubmit} className="employees-form">
         <div className="employees-form-inputs-container">
           <label className="employees-form-labels" htmlFor="Name">
             Full Name:
           </label>
-          <input className="employees-form-inputs" type="text" />
+          <input className="employees-form-inputs" type="text" name="full_name"/>
         </div>
         <div className="employees-form-inputs-container">
           <label className="employees-form-labels" htmlFor="Salary">
             Salary:
           </label>
-          <input className="employees-form-inputs" type="number" />
+          <input className="employees-form-inputs" type="number" name="salary"/>
         </div>
         <div className="employees-form-inputs-container">
           <label className="employees-form-labels" htmlFor="job">
             Job:
           </label>
-          <input className="employees-form-inputs" type="text" />
+          <input className="employees-form-inputs" type="text" name="job"/>
         </div>
         <div className="employees-form-inputs-container">
           <label className="employees-form-labels" htmlFor="Years Worked">
             Years Worked:
           </label>
-          <input className="employees-form-inputs" type="number" />
+          <input className="employees-form-inputs" type="number" name="years_worked"/>
         </div>
         <div className="employees-form-inputs-container">
           <select className="employees-form-inputs" id="state">
             <option value="Active">Avalible</option>
             <option value="Inactive">Not Avalible</option>
           </select>
+        </div>
+        <div className={errorClass}>
+            <i className="bi bi-exclamation-triangle-fill"></i>
+            <p>{errorMessage}</p>
         </div>
         <button className="form-submit-button">Save</button>
       </form>

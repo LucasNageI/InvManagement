@@ -1,10 +1,11 @@
 .employees-container {
-    width: 100%;
+    width: calc(100% - 180px);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
     margin-top: 20px;
+    margin-left: 180px;
 }
 
 .search-input {
@@ -179,7 +180,11 @@
     color: #000;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 479px) {
+    .employees-container {
+        width: 100%;
+        margin-left: 0;
+    }
     .employees-list {
         max-height: 85vh;
     }
