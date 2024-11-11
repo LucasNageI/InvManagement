@@ -39,3 +39,24 @@
     color: #1F1F1F;
     cursor: pointer;
 }
+
+@media (min-width: 500px) {
+    .company {
+        width: 280px;
+      }
+  }
+  @media (min-width: 800px) {
+    .company {
+        width: 400px;
+      }
+  }
+  @media (min-width: 1000px) {
+    .company {
+        width: 700px;
+      }
+  }
+  @media (min-width: 1350px) {
+    .company {
+      width: 800px;
+    }
+  }

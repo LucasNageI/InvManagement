@@ -31,6 +31,7 @@ const Login = () => {
             console.log('Login successful')
             setErrorMessage('')
             setErrorClass('no-error')
+            window.location.href = '/home'
         }
           
     }
