@@ -31,6 +31,12 @@ body{
     font-weight: bold;
 }
 
+.h2-title {
+    color: #7581ff;
+    font-size: 30px;
+    font-weight: bold;
+}
+
 .form-inputs {
     color: white;
     width: 250px;
@@ -114,4 +120,27 @@ body{
     border: none;
     cursor: pointer;
     margin-bottom: 30px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #1F1F1F;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #7581ff;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #ffffff;
+}
+
+::-webkit-scrollbar-horizontal {
+    height: 8px;
 }

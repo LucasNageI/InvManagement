@@ -1,8 +1,5 @@
-/* Estilo general para pantallas grandes */
-
-
 .aside {
-    background-color: #131b4f;
+    background-color: #1F1F1F;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -51,6 +48,22 @@ li {
   gap: 10px;
 }
 
+.aside-nav-links {
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.1s ease;
+}
+
+.aside-nav-links:hover {
+    transform: scale(1.05);
+    color: #7581ff;
+  }
+
 i {
   font-size: 20px;
 }
@@ -61,23 +74,96 @@ i {
   color: white;
   cursor: pointer;
   text-decoration: none;
-  font-size: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  transition: transform 0.1s ease;
 }
 
-/* Estilo para pantallas menores a 480px */
+.log-out:hover {
+    transform: scale(1.05);
+    color: #D9363E;
+  }
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+
+  .modal {
+    background-color: #2E2E2E; 
+    border-radius: 10px;
+    padding: 20px 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    color: #FFFFFF; 
+    max-width: 400px;
+    width: 90%;
+  }
+  
+  .modal p {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #FFFFFF;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .back-btn, .sure-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+  }
+  
+
+  .back-btn {
+    background-color: #555555; 
+    color: #FFFFFF;
+  }
+  
+  .back-btn:hover {
+    transform: scale(1.05);
+    background-color: #777777;
+  }
+  
+  .sure-btn {
+    background-color: #FF4D4F;
+    color: #FFFFFF;
+  }
+  
+  .sure-btn:hover {
+    transform: scale(1.05);
+    background-color: #D9363E;
+  }
+  
+
 @media (min-width: 480px) {
     .aside {
-        background-color: #131b4f;
+        background-color: #1F1F1F;
         display: flex;
         align-items: center;
         justify-content: center;
-        position: static; /* Por defecto, no es fijo */
-        width: 150px;
-        height: 100vh;
+        position: static;
+        width: 180px;
+        height: auto;
         flex-direction: column;
         justify-content: space-between;
       }

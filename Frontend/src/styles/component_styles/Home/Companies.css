@@ -31,4 +31,11 @@
     color: #FFFFFF;
     border: none;
     padding: 5px 10px;
+    transition: all 0.3s;
+}
+
+.launch-btn:hover {
+    background-color: #FFFFFF;
+    color: #1F1F1F;
+    cursor: pointer;
 }

@@ -34,3 +34,19 @@
     justify-content: center;
     gap: 10px;
 }
+
+.welcome {
+    animation: colorShift 2s infinite;
+  }
+
+  @keyframes colorShift {
+    0% {
+      color: #7581ff;;
+    }
+    50% {
+      color: #ffffff;
+    }
+    100% {
+      color: #7581ff;
+    }
+  }

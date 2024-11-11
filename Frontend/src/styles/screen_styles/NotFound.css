@@ -1,5 +1,10 @@
 .not-found-title {
-    color: black;
+    color: rgb(255, 255, 255);
     font-size: 35px;
     font-weight: bold;
+}
+
+.not-found-text {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
 }
