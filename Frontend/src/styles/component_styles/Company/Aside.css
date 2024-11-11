@@ -79,6 +79,7 @@ i {
   justify-content: center;
   gap: 10px;
   transition: transform 0.1s ease;
+  font-size: 10px;
 }
 
 .log-out:hover {
@@ -163,6 +164,7 @@ i {
         justify-content: center;
         position: static;
         width: 180px;
+        min-height: 100vh;
         height: auto;
         flex-direction: column;
         justify-content: space-between;

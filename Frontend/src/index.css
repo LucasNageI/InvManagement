@@ -144,3 +144,28 @@ body{
 ::-webkit-scrollbar-horizontal {
     height: 8px;
 }
+
+@media screen and (min-width: 700px) {
+    .h1-title{
+        font-size: 45px;
+    }
+    .form {
+        width: 400px;
+    }
+
+    .form-labels {
+        font-size: 18px;
+    }
+
+    .form-inputs {
+        width: 400px;
+        height: 50px;
+    }
+    .form-links {
+        width: 400px;
+    }
+    .form-submit-button {
+        width: 400px;
+        height: 50px;
+    }
+}

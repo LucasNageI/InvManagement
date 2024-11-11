@@ -50,3 +50,15 @@
       color: #7581ff;
     }
   }
+
+  @media (min-width: 1350px) {
+  }
+  @media (max-width: 1000px) {
+  }
+  
+  @media (max-width: 800px) {
+  }
+  
+  @media (max-width: 500px) {
+  }
+  

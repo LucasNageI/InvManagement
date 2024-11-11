@@ -50,7 +50,7 @@ const Aside = () => {
           <li>
             <button onClick={handleLogOutClick} className="log-out">
               <i className="bi bi-box-arrow-right"></i>
-              <span className="aside-span">Log Out</span>
+              <span className="aside-span">LogOut</span>
             </button>
           </li>
         </ul>

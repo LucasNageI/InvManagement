@@ -1,9 +1,10 @@
 .landing-container {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    height: 100vh;
+    height: 800px;
 }
 
 .landing-title-and-logo {
@@ -30,6 +31,7 @@
     overflow: hidden;
     padding-right: 5px;
     margin-left: 20px;
+    margin-bottom: 200px;
     animation: colorShift 2s infinite;
   }
   
@@ -57,7 +59,7 @@
     align-items: center;
     justify-content: center;
     gap: 20px;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
   }
   
   .landing-button {
@@ -82,3 +84,15 @@
     background-color: transparent;
     font-weight: bold;
   }
+
+  @media screen and (min-width: 700px) {
+    .landing-slogan {
+        max-width: 1000px;
+        font-size: 5rem;
+    }
+  
+    .highlight {
+      font-size: 6rem;
+    }
+  }
+  

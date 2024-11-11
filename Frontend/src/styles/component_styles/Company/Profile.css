@@ -1,0 +1,106 @@
+.profile-container {
+    font-family: 'Arial', sans-serif;
+    width: 80%;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 16px;
+    background-color: transparent;
+    transition: border 0.3s ease;
+  }
+  
+  .profile-container h1 {
+    font-size: 32px;
+    color: #7581ff;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 2px solid #7581ff;
+    padding-bottom: 12px;
+  }
+  
+  .profile-container ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .profile-container li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 0;
+    border-bottom: 1px solid #7979797a;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .profile-container li:last-child {
+    border-bottom: none;
+  }
+  
+  .bold-spans {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+    text-decoration: underline;
+  }
+
+  .profile-container span {
+    font-size: 18px;
+    color: #ffffff;
+  }
+  
+  .profile-spans {
+    font-weight: bold;
+    color: #7581ff;
+  }
+  
+  .copy-button {
+    padding: 5px;
+    background-color: #7581ff;
+    font-size: 16px; 
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .copy-button:hover {
+    transform: scale(1.05);
+  }
+
+  @media screen and (max-width: 700px) {
+    .profile-container {
+      max-width: 90%;
+      padding: 15px;
+    }
+  
+    .profile-container h1 {
+      font-size: 22px;
+      padding-bottom: 8px;
+    }
+  
+    .profile-container li {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px 0;
+    }
+  
+    .profile-container span {
+      font-size: 14px;
+    }
+  
+    .copy-button {
+      font-size: 12px;
+      padding: 6px 10px;
+      width: 100%;
+      background-color: #7581ff;
+    }
+  }
+  
