@@ -1,18 +1,18 @@
 .company-container {
-    display: flex;
-    flex-direction: row;
-    width: 99.6vw;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  width: 99.6vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
-  .company-main {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    display: flex;
-  }
+.company-main {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  display: flex;
+}

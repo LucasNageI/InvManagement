@@ -1,62 +1,61 @@
 .company {
-    border-bottom: 1px solid #7979797a;
-    width: 278px;
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-
+  border-bottom: 1px solid #7979797a;
+  width: 278px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .company-title {
-    font-weight: 600;
-    font-size: 20px;
+  font-weight: 600;
+  font-size: 20px;
 }
 
-.info-container {    
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: center;
-    gap: 5px;
+.info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  gap: 5px;
 }
 
 .launch-btn {
-    background-color: #7581ff;
-    border-radius: 5px;
-    cursor: pointer;
-    height: 40px;
-    width: 70px;
-    color: #FFFFFF;
-    border: none;
-    padding: 5px 10px;
-    transition: all 0.3s;
+  background-color: #7581ff;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 40px;
+  width: 70px;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  transition: all 0.3s;
 }
 
 .launch-btn:hover {
-    background-color: #FFFFFF;
-    color: #1F1F1F;
-    cursor: pointer;
+  background-color: #ffffff;
+  color: #1f1f1f;
+  cursor: pointer;
 }
 
 @media (min-width: 500px) {
-    .company {
-        width: 280px;
-      }
+  .company {
+    width: 280px;
   }
-  @media (min-width: 800px) {
-    .company {
-        width: 400px;
-      }
+}
+@media (min-width: 800px) {
+  .company {
+    width: 400px;
   }
-  @media (min-width: 1000px) {
-    .company {
-        width: 700px;
-      }
+}
+@media (min-width: 1000px) {
+  .company {
+    width: 700px;
   }
-  @media (min-width: 1350px) {
-    .company {
-      width: 800px;
-    }
+}
+@media (min-width: 1350px) {
+  .company {
+    width: 800px;
   }
+}

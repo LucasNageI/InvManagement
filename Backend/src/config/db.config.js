@@ -1,14 +1,14 @@
-import mongoose from 'mongoose'
-import dotenv from 'dotenv'
+import mongoose from "mongoose"
 
-dotenv.config()
+const connectDB = async () => {
+  mongoose
+    .connect("mongodb://localhost:27017/InvManagementDB")
+    .then(() => {
+      console.log("MongoDB connected successfully!")
+    })
+    .catch((err) => {
+      console.error("MongoDB connection error:", err)
+    })
+}
 
-const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/InvManagementDB'
-
-mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log('Conectado a MongoDB - InvManagementDB')
-  })
-  .catch((error) => {
-    console.error('Error al conectar con MongoDB', error)
-  })
+export default connectDB

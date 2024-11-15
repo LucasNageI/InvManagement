@@ -71,39 +71,39 @@
   }
 }
 @media (max-width: 1000px) {
-    .inventory-data-container {
-        width: 200px;
-        height: 125px;
-      }
-      .employees-data-container {
-        width: 300px;
-        height: 125px;
-      }
-      .subtitle {
-        font-size: 20px;
-      }
+  .inventory-data-container {
+    width: 200px;
+    height: 125px;
+  }
+  .employees-data-container {
+    width: 300px;
+    height: 125px;
+  }
+  .subtitle {
+    font-size: 20px;
+  }
 }
 
 @media (max-width: 800px) {
-    .dashboard-data-container {
-        flex-direction: column;
-    }
-    .inventory-data-container {
-        flex-direction: column;
-        width: 300px;
-        height: 200px;
-      }
-      .employees-data-container {
-        flex-direction: column;
-        width: 300px;
-        height: 200px;
-      }
+  .dashboard-data-container {
+    flex-direction: column;
+  }
+  .inventory-data-container {
+    flex-direction: column;
+    width: 300px;
+    height: 200px;
+  }
+  .employees-data-container {
+    flex-direction: column;
+    width: 300px;
+    height: 200px;
+  }
 }
 
 @media (max-width: 500px) {
-    .dashboard-container {
-        width: 100%;
-        margin-left: 0;
-        margin-bottom: 100px;
-      }
+  .dashboard-container {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 100px;
+  }
 }

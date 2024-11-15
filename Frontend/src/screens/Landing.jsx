@@ -1,6 +1,6 @@
-import React from "react";
-import "../styles/screen_styles/Landing.css";
-import { Link } from "react-router-dom";
+import React from "react"
+import "../styles/screen_styles/Landing.css"
+import { Link } from "react-router-dom"
 
 const Landing = () => {
   return (
@@ -15,24 +15,21 @@ const Landing = () => {
       </div>
       <div>
         <h2 className="landing-slogan">
-          The best site to{" "}
-          <span className="highlight">manage</span> your{" "}
+          The best site to <span className="highlight">manage</span> your{" "}
           <span className="highlight">company</span>.
         </h2>
       </div>
       <div className="landing-buttons">
-
         <Link to="/register">
-            <button className="landing-button get-started">Get Started</button>
+          <button className="landing-button get-started">Get Started</button>
         </Link>
 
         <Link to="/login">
-            <button className="landing-button landing-login">Login</button>
+          <button className="landing-button landing-login">Login</button>
         </Link>
-
       </div>
     </main>
-  );
-};
+  )
+}
 
-export default Landing;
+export default Landing

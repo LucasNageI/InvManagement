@@ -5,7 +5,7 @@ import "../../styles/component_styles/Company/Aside.css"
 const Aside = () => {
   const [showModal, setShowModal] = useState(false)
 
-  const handleLogout = () => { //eliminar la sesion
+  const handleLogout = () => {
     window.location.href = "/login"
   }
 
@@ -61,8 +61,12 @@ const Aside = () => {
           <div className="modal">
             <p>Are you sure you want to log out?</p>
             <div className="modal-actions">
-              <button className="back-btn" onClick={handleCancel}>Back</button>
-              <button className="sure-btn" onClick={handleLogout}>Log Out</button>
+              <button className="back-btn" onClick={handleCancel}>
+                Back
+              </button>
+              <button className="sure-btn" onClick={handleLogout}>
+                Log Out
+              </button>
             </div>
           </div>
         </div>

@@ -2,8 +2,7 @@ import React from "react"
 import "../../styles/component_styles/Company/Profile.css"
 
 const Profile = () => {
-  const secretKey = "xxx-xxx-xxx"
-
+  const secretKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
   return (
     <div className="profile-container">

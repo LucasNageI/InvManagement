@@ -3,7 +3,7 @@ import "../../styles/component_styles/Company/Employees.css"
 import { usernameVerification, isPositiveNumber } from "../../utils/index.js"
 
 const Employees = () => {
-    const [errorMessage, setErrorMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
   const [errorClass, setErrorClass] = useState("no-error")
   const [searchQuery, setSearchQuery] = useState("")
   const [employees, setEmployees] = useState([
@@ -65,7 +65,7 @@ const Employees = () => {
       setErrorMessage("Invalid number of salary")
     } else if (!isYearsWorkedValid) {
       setErrorClass("form-error")
-        setErrorMessage("Invalid number of years worked")
+      setErrorMessage("Invalid number of years worked")
     } else {
       const newEmployee = {
         id: employees.length + 1,
@@ -148,25 +148,37 @@ const Employees = () => {
           <label className="employees-form-labels" htmlFor="Name">
             Full Name:
           </label>
-          <input className="employees-form-inputs" type="text" name="full_name"/>
+          <input
+            className="employees-form-inputs"
+            type="text"
+            name="full_name"
+          />
         </div>
         <div className="employees-form-inputs-container">
           <label className="employees-form-labels" htmlFor="Salary">
             Salary:
           </label>
-          <input className="employees-form-inputs" type="number" name="salary"/>
+          <input
+            className="employees-form-inputs"
+            type="number"
+            name="salary"
+          />
         </div>
         <div className="employees-form-inputs-container">
           <label className="employees-form-labels" htmlFor="job">
             Job:
           </label>
-          <input className="employees-form-inputs" type="text" name="job"/>
+          <input className="employees-form-inputs" type="text" name="job" />
         </div>
         <div className="employees-form-inputs-container">
           <label className="employees-form-labels" htmlFor="Years Worked">
             Years Worked:
           </label>
-          <input className="employees-form-inputs" type="number" name="years_worked"/>
+          <input
+            className="employees-form-inputs"
+            type="number"
+            name="years_worked"
+          />
         </div>
         <div className="employees-form-inputs-container">
           <select className="employees-form-inputs" id="state">
@@ -175,8 +187,8 @@ const Employees = () => {
           </select>
         </div>
         <div className={errorClass}>
-            <i className="bi bi-exclamation-triangle-fill"></i>
-            <p>{errorMessage}</p>
+          <i className="bi bi-exclamation-triangle-fill"></i>
+          <p>{errorMessage}</p>
         </div>
         <button className="form-submit-button">Save</button>
       </form>

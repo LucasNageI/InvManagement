@@ -5,4 +5,11 @@ import { verifyPasswords } from "./verifyPasswords"
 import { verifyBusinessKey } from "./verifyBusinessKey"
 import { isPositiveNumber } from "./isPositiveNumber"
 
-export { emailVerification, passwordVerification, usernameVerification, verifyPasswords, verifyBusinessKey, isPositiveNumber }
+export {
+  emailVerification,
+  passwordVerification,
+  usernameVerification,
+  verifyPasswords,
+  verifyBusinessKey,
+  isPositiveNumber,
+}
