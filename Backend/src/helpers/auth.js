@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import ENVIRONMENT from "../config/environment.js"
 import dotenv from "dotenv"
+import User from "../models/UserModel.js"
 
 dotenv.config()
 
@@ -30,4 +31,15 @@ export const hashPassword = async (password) => {
   return await bcrypt.hash(password, salt)
 }
 
-export default { generateToken, refreshToken, comparePasswords, hashPassword }
+export const verifyEmailHelper = async (email) => {
+  try {
+    const user = await User.findOne({ email })
+    if (!user) {
+      throw new Error("User not found")
+    }
+    return user
+  } catch (error) {
+    console.error("Error verifying email:", error.message)
+    throw error
+  }
+}

@@ -2,11 +2,10 @@ import express from "express"
 import {
   loginController,
   registerController,
-  verifyEmailController,
   resendVerificationEmailController,
-  checkEmailVerificationController,
-  forgotPasswordController,
-  recoveryPasswordController,
+  verifyEmailController,
+  sendRecoveryEmail,
+  resetPasswordController,
 } from "../controllers/auth.controller.js"
 import { verifyToken } from "../middlewares/auth.middleware.js"
 //
@@ -16,8 +15,8 @@ authRouter.post("/register", registerController)
 authRouter.post("/login", loginController)
 authRouter.get("/verify-email/:validation_token", verifyEmailController)
 authRouter.post("/resend-verification", resendVerificationEmailController)
-authRouter.post("/verify", verifyToken, checkEmailVerificationController)
-// authRouter.post('/forgot-password', forgotPasswordController)
-// authRouter.put('/recovery-password', recoveryPasswordController)
+authRouter.post("/verify", verifyToken, verifyEmailController)
+authRouter.post("/recovery-password", sendRecoveryEmail)
+authRouter.put("/reset-password", resetPasswordController)
 
 export default authRouter
