@@ -8,8 +8,10 @@ const EmailVerified = () => {
   const location = useLocation()
 
   useEffect(() => {
+    console.log(location.search)
     const queryParams = new URLSearchParams(location.search)
     const validationToken = queryParams.get("validation_token")
+    console.log(validationToken)
 
     if (validationToken) {
       fetch(`http://localhost:5000/api/auth/verify-email/${validationToken}`, {

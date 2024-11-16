@@ -2,17 +2,23 @@ import React, { useState } from "react"
 import "../styles/screen_styles/SetNewPassword.css"
 import { verifyPasswords } from "../utils/verifyPasswords"
 import { passwordVerification } from "../utils/passwordVerification"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const SetNewPassword = () => {
   const [errorMessage, setErrorMessage] = useState("")
   const [errorClass, setErrorClass] = useState("no-error")
+  const [successMessage, setSuccessMessage] = useState("")
+  const navigate = useNavigate()
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
 
     const password = event.target.password.value
     const confirm_password = event.target["confirm-password"].value
+    const token = new URLSearchParams(window.location.search).get("token")
+    console.log("Token:", token)
+    console.log("Password:", password)
+    console.log("Confirm Password:", confirm_password)
 
     if (!passwordVerification(password)) {
       setErrorMessage(
@@ -23,9 +29,38 @@ const SetNewPassword = () => {
       setErrorMessage("Passwords do not match")
       setErrorClass("form-error")
     } else {
-      console.log("All validations passed, form submitted successfully.")
       setErrorMessage("")
       setErrorClass("no-error")
+
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/auth/reset-password",
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ token, password }),
+          }
+        )
+
+        const data = await response.json()
+        console.log("Response data:", data)
+
+        if (data.success) {
+          setSuccessMessage("Password updated successfully.")
+          setTimeout(() => {
+            navigate("/login")
+          }, 2000)
+        } else {
+          setErrorClass("form-error")
+          setErrorMessage(data.message || "Error updating password.")
+        }
+      } catch (error) {
+        console.error("Error in fetch:", error)
+        setErrorClass("form-error")
+        setErrorMessage("Error resetting password.")
+      }
     }
   }
 
@@ -46,7 +81,7 @@ const SetNewPassword = () => {
           />
         </div>
         <div className="form-input-container">
-          <label className="form-labels" htmlFor="password">
+          <label className="form-labels" htmlFor="confirm-password">
             Confirm new password
           </label>
           <input
@@ -57,6 +92,7 @@ const SetNewPassword = () => {
             required
           />
         </div>
+        {successMessage && <p className="success-message">{successMessage}</p>}
         <div className={errorClass}>
           <p>{errorMessage}</p>
         </div>

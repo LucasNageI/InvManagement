@@ -1,8 +1,7 @@
-import { useNavigate } from "react-router-dom"
 import React, { useState, useEffect } from "react"
 import "../styles/screen_styles/Login.css"
 import { emailVerification, passwordVerification } from "../utils"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("")
@@ -53,8 +52,15 @@ const Login = () => {
       }
 
       const data = await response.json()
-      sessionStorage.setItem("auth_token", data.token)
-      navigate("/home")
+      console.log("emailVerified:", data.user.emailVerified)
+      if (data.user.emailVerified) {
+        sessionStorage.setItem("auth_token", data.token)
+        navigate("/home")
+      } else {
+        setErrorMessage("Email not verified")
+        setErrorClass("form-error")
+        navigate("/waiting-to-verify-email")
+      }
     } catch (error) {
       console.error("Login error:", error)
       setErrorMessage(error.message)
@@ -104,6 +110,9 @@ const Login = () => {
           </Link>
           <Link to="/recovery-password" className="form-link">
             Forgot password?
+          </Link>
+          <Link to="/waiting-to-verify-email" className="form-link">
+            Verify Email
           </Link>
         </div>
         <button className="form-submit-button" type="submit" disabled={loading}>

@@ -7,20 +7,49 @@ const RecoveryPassword = () => {
   const [errorMessage, setErrorMessage] = useState("")
   const [successMessage, setSuccessMessage] = useState("")
   const [errorClass, setErrorClass] = useState("no-error")
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = (event) => {
-    const email = event.target.email.value
     event.preventDefault()
+    setLoading(true)
+    const email = event.target.email.value
     setErrorMessage(emailVerification(email))
 
     if (emailVerification(email)) {
       setErrorMessage("")
       setErrorClass("no-error")
-      setSuccessMessage("Email sent successfully")
+
+      fetch("http://localhost:5000/api/auth/recovery-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            setSuccessMessage(data.message)
+            setLoading(false)
+          } else {
+            setErrorClass("form-error")
+            setSuccessMessage("")
+            setErrorMessage(data.message)
+            setLoading(false)
+          }
+        })
+        .catch((error) => {
+          console.error("Error sending recovery email:", error)
+          setErrorClass("form-error")
+          setSuccessMessage("")
+          setErrorMessage("Failed to send recovery email")
+          setLoading(false)
+        })
     } else {
       setErrorClass("form-error")
       setSuccessMessage("")
       setErrorMessage("Invalid email")
+      setLoading(false)
     }
   }
 
@@ -44,15 +73,15 @@ const RecoveryPassword = () => {
           <p className="email-sent-message">{successMessage}</p>
         </div>
         <div className={errorClass}>
-          <p>{errorMessage}</p>
+          <p className="form-error-message">{errorMessage}</p>
         </div>
         <div className="form-links">
           <Link to="/login" className="form-link">
             Back to login form
           </Link>
         </div>
-        <button className="form-submit-button" type="submit">
-          Send Email
+        <button className="form-submit-button" type="submit" disabled={loading}>
+          {loading ? "Sending Email..." : "Send Email"}
         </button>
       </form>
     </main>
