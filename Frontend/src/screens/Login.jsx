@@ -38,6 +38,7 @@ const Login = () => {
     }
 
     try {
+        
       const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: {
@@ -52,9 +53,10 @@ const Login = () => {
       }
 
       const data = await response.json()
-      console.log("emailVerified:", data.user.emailVerified)
-      if (data.user.emailVerified) {
-        sessionStorage.setItem("auth_token", data.token)
+      
+
+      if (data.data.user.emailVerified) {
+        sessionStorage.setItem("auth_token", data.data.token)
         navigate("/home")
       } else {
         setErrorMessage("Email not verified")

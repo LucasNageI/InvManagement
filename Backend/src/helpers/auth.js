@@ -32,14 +32,6 @@ export const hashPassword = async (password) => {
 }
 
 export const verifyEmailHelper = async (email) => {
-  try {
     const user = await User.findOne({ email })
-    if (!user) {
-      throw new Error("User not found")
-    }
     return user
-  } catch (error) {
-    console.error("Error verifying email:", error.message)
-    throw error
-  }
 }

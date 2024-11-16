@@ -74,7 +74,7 @@ export const registerController = async (req, res) => {
     }
 
     const emailVerificationResult = await verifyEmailHelper(email)
-    if (!emailVerificationResult.success) {
+    if (emailVerificationResult) {
       const response = new ResponseBuilder()
         .setOk(false)
         .setStatus(409)
@@ -149,7 +149,7 @@ export const loginController = async (req, res) => {
   const response = new ResponseBuilder()
 
   try {
-    const user = await User.findOne({ email })
+    const user = await verifyEmailHelper(email)
     if (!user) {
       return res
         .status(400)
@@ -161,7 +161,6 @@ export const loginController = async (req, res) => {
             .build()
         )
     }
-
     const isPasswordCorrect = await comparePasswords(password, user.password)
     if (!isPasswordCorrect) {
       return res
@@ -350,9 +349,7 @@ export const verifyEmailController = async (req, res) => {
             .build()
         )
     }
-
     user.emailVerified = true
-    user.verificationToken = null
     await user.save()
 
     return res
@@ -487,7 +484,6 @@ export const resetPasswordController = async (req, res) => {
     const hashedPassword = await hashPassword(password)
 
     user.password = hashedPassword
-    user.resetPasswordToken = null
     await user.save()
 
     return res
