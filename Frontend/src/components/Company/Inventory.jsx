@@ -1,6 +1,7 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import "../../styles/component_styles/Company/Inventory.css"
 import { isPositiveNumber, usernameVerification } from "../../utils"
+import { useParams } from "react-router-dom"
 
 const Inventory = () => {
   const [searchQuery, setSearchQuery] = useState("")
@@ -8,6 +9,35 @@ const Inventory = () => {
   const [errorMessage, setErrorMessage] = useState("")
   const [products, setProducts] = useState([])
   const authToken = sessionStorage.getItem("auth_token")
+  const { company_id } = useParams()
+  const fetchAllProducts = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/companies/:company_id/get-inventory`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch products.")
+      }
+
+      const data = await response.json()
+      setProducts(data)
+    } catch (error) {
+      console.error("Error fetching products:", error)
+      setErrorClass("form-error")
+      setErrorMessage("Failed to fetch products. Please try again.")
+    }
+  }
+
+  useEffect(() => {
+    fetchAllProducts()
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -53,7 +83,7 @@ const Inventory = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/companies/inventory",
+        "http://localhost:5000/api/companies/:company_id/inventory",
         {
           method: "POST",
           headers: {
@@ -86,9 +116,17 @@ const Inventory = () => {
   )
 
   const handleDelete = async (id) => {
+    if (!id) {
+      console.error("Product ID is missing or undefined.")
+      return
+    }
+    console.log(
+      `http://localhost:5000/api/companies/${company_id}/delete-inventory-item/${id}`
+    )
+
     try {
       const response = await fetch(
-        `http://localhost:5000/api/companies/inventory/${id}`,
+        `http://localhost:5000/api/companies/${company_id}/delete-inventory-item/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -102,7 +140,7 @@ const Inventory = () => {
       }
 
       setProducts((prevProducts) =>
-        prevProducts.filter((product) => product.id !== id)
+        prevProducts.filter((product) => product._id !== id)
       )
     } catch (error) {
       console.error("Error deleting product:", error)
@@ -110,7 +148,6 @@ const Inventory = () => {
       setErrorMessage("Failed to delete the product. Try again.")
     }
   }
-
   return (
     <div className="inventory-container">
       <h1 className="h1-title">Inventory</h1>
@@ -127,12 +164,12 @@ const Inventory = () => {
         <ul className="inventory-list">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((item) => (
-              <li key={item.id} className="inventory-item">
+              <li key={item._id} className="inventory-item">
                 <div>
                   <h3 className="list-title">{item.product_name}</h3>
                 </div>
                 <div>
-                  <span className="list-span">ID:</span> {item.id}
+                  <span className="list-span">ID:</span> {item._id}
                 </div>
                 <div>
                   <span className="list-span">Price:</span> {item.price}
@@ -149,7 +186,7 @@ const Inventory = () => {
                 <div className="inventory-actions">
                   <button
                     className="table-icon-button delete-button"
-                    onClick={() => handleDelete(item.id)}
+                    onClick={() => handleDelete(item._id)}
                   >
                     <span>Delete</span>
                     <i className="bi bi-trash table-icon"></i>
@@ -174,6 +211,7 @@ const Inventory = () => {
             type="text"
             id="product_name"
             name="product_name"
+            autoComplete="off"
           />
         </div>
         <div className="inventory-form-inputs-container">
@@ -185,6 +223,7 @@ const Inventory = () => {
             type="number"
             id="price"
             name="price"
+            autoComplete="off"
           />
         </div>
         <div className="inventory-form-inputs-container">
@@ -196,6 +235,7 @@ const Inventory = () => {
             type="number"
             id="stock"
             name="stock"
+            autoComplete="off"
           />
         </div>
         <div className="inventory-form-inputs-container">
@@ -216,6 +256,7 @@ const Inventory = () => {
             type="text"
             id="category"
             name="category"
+            autoComplete="off"
           />
         </div>
         <div className={errorClass}>

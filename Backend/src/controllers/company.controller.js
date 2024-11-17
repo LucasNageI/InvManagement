@@ -141,12 +141,10 @@ export const getUserData = async (req, res) => {
     res.status(200).json(user)
   } catch (error) {
     console.error(error)
-    res
-      .status(500)
-      .json({
-        message: "Error al obtener los datos del usuario",
-        error: error.message,
-      })
+    res.status(500).json({
+      message: "Error al obtener los datos del usuario",
+      error: error.message,
+    })
   }
 }
 
@@ -196,6 +194,15 @@ export const createInventoryItemController = async (req, res) => {
   }
 }
 
+export const getInventoryItemsController = async (req, res) => {
+  try {
+    const products = await InventoryItem.find()
+    res.status(200).json(products)
+  } catch (error) {
+    console.error("Error fetching products:", error)
+    res.status(500).json({ message: "Failed to fetch products." })
+  }
+}
 export const deleteInventoryItemController = async (req, res) => {
   try {
     const { id } = req.params
