@@ -1,24 +1,95 @@
-import React from "react"
-import {
-  Inventory,
-  Employees,
-  Dashboard,
-  Aside,
-  Profile,
-  NotFound,
-} from "../components/index.js"
+import React, { useEffect, useState } from "react"
+import { Inventory, Employees, Dashboard, Aside, Profile, NotFound } from "../components/index.js"
 import { useParams, Navigate } from "react-router-dom"
 import "../styles/screen_styles/Company.css"
 import { Route, Routes } from "react-router-dom"
 
-const Company = ({ companies }) => {
+const Company = () => {
   const { company_id } = useParams()
+  const [companyExists, setCompanyExists] = useState(false)
+  const [userHasAccess, setUserHasAccess] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const authToken = sessionStorage.getItem("auth_token")
 
-  const companyExists = companies.some(
-    (company) => company.id === parseInt(company_id, 10)
-  )
+  useEffect(() => {
+    const checkCompanyAccess = async () => {
+      if (!authToken) {
+        setError("No token provided.")
+        setLoading(false)
+        return
+      }
 
-  if (!companyExists) {
+      try {
+        const companyResponse = await fetch(
+            `http://localhost:5000/api/companies/${company_id}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${authToken}`,
+              },
+            }
+          )
+          
+          
+          if (!companyResponse.ok) {
+            setCompanyExists(false)
+            setError("Company not found or error fetching data.")
+            console.log('Company response error:', await companyResponse.text())
+            return
+          }
+        
+        const companyData = await companyResponse.json()
+        console.log("Company data:", companyData)
+        setCompanyExists(true)
+
+        const userResponse = await fetch(
+            "http://localhost:5000/api/companies/get-user-profile",
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${authToken}`,
+              },
+            }
+          )
+          
+          if (!userResponse.ok) {
+            setUserHasAccess(false)
+            setError("Error fetching user profile.")
+            console.log('User response error:', await userResponse.text())
+            return
+          }
+          
+
+        const userData = await userResponse.json()
+        console.log("User data:", userData)
+        if (userData._id === companyData.adminUser) {
+          setUserHasAccess(true)
+        } else {
+          setUserHasAccess(false)
+        }
+      } catch (error) {
+        console.error("Error al verificar la compañía:", error)
+        setError("An unexpected error occurred.")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    checkCompanyAccess()
+  }, [company_id, authToken])
+
+  if (loading) {
+    return <h1 className="h1-title">Loading...</h1>
+  }
+
+  if (error) {
+    return <Navigate to="/404" replace />
+  }
+
+  if (!companyExists || !userHasAccess) {
     return <Navigate to="/404" replace />
   }
 
@@ -31,8 +102,7 @@ const Company = ({ companies }) => {
           <Route path="inventory" element={<Inventory />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="employees" element={<Employees />} />
-          <Route path="/profile" element={<Profile />} />
-
+          <Route path="profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

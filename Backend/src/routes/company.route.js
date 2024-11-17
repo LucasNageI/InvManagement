@@ -1,9 +1,26 @@
 import express from "express"
 
-import { createCompanyController } from "../controllers/company.controller.js"
+import {
+  getCompany,
+  createCompanyController,
+  getCompaniesByUserId,
+  getUserData,
+  createInventoryItemController,
+  deleteInventoryItemController,
+} from "../controllers/company.controller.js"
+import { verifyToken } from "../middlewares/auth.middleware.js"
 
-const authRouter = express.Router()
+const companyRouter = express.Router()
 
-authRouter.post("/add-company", createCompanyController)
+companyRouter.get("/get-companies", getCompaniesByUserId)
+companyRouter.get("/get-user-profile", verifyToken, getUserData)
+companyRouter.post("/add-company", createCompanyController)
+companyRouter.get("/:company_id", getCompany)
+companyRouter.post("/:company_id/inventory", createInventoryItemController)
+companyRouter.delete(
+  "/:company_id/inventory/:item_id",
+  verifyToken,
+  deleteInventoryItemController
+)
 
-export default authRouter
+export default companyRouter

@@ -137,7 +137,7 @@ const Employees = () => {
               </li>
             ))
           ) : (
-            <li>No employees found</li>
+            <li className="no-employees-found-message">No employees found</li>
           )}
         </ul>
       </div>

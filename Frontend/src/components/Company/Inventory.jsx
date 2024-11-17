@@ -6,55 +6,15 @@ const Inventory = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const [errorClass, setErrorClass] = useState("no-error")
   const [errorMessage, setErrorMessage] = useState("")
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      product_name: "Product A",
-      price: 150,
-      stock: 8,
-      state: "Active",
-      category: "Electronics",
-    },
-    {
-      id: 2,
-      product_name: "Product B",
-      price: 80,
-      stock: 20,
-      state: "Inactive",
-      category: "Furniture",
-    },
-    {
-      id: 3,
-      product_name: "Product C",
-      price: 120,
-      stock: 3,
-      state: "Active",
-      category: "Clothing",
-    },
-    {
-      id: 4,
-      product_name: "Product D",
-      price: 50,
-      stock: 50,
-      state: "Active",
-      category: "Sports",
-    },
-    {
-      id: 5,
-      product_name: "Product E",
-      price: 200,
-      stock: 1,
-      state: "Inactive",
-      category: "Electronics",
-    },
-  ])
+  const [products, setProducts] = useState([])
+  const authToken = sessionStorage.getItem("auth_token")
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-
     const product_name = e.target.product_name.value
     const price = e.target.price.value
     const stock = e.target.stock.value
+    const state = e.target.state.value
     const category = e.target.category.value
 
     const isProductNameValid = usernameVerification(product_name)
@@ -65,28 +25,59 @@ const Inventory = () => {
     if (!isProductNameValid) {
       setErrorClass("form-error")
       setErrorMessage("Invalid name")
-    } else if (!isPriceValid) {
+      return
+    }
+    if (!isPriceValid) {
       setErrorClass("form-error")
       setErrorMessage("Invalid price number")
-    } else if (!isStockValid) {
+      return
+    }
+    if (!isStockValid) {
       setErrorClass("form-error")
       setErrorMessage("Invalid stock number")
-    } else if (!isCategoryValid) {
+      return
+    }
+    if (!isCategoryValid) {
       setErrorClass("form-error")
       setErrorMessage("Invalid category name")
-    } else {
-      const newItem = {
-        id: products.length + 1,
-        product_name,
-        price,
-        stock,
-        state: "Active",
-        category,
+      return
+    }
+
+    const newProduct = {
+      product_name,
+      price,
+      stock,
+      state,
+      category,
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/companies/inventory",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify(newProduct),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error("Error saving product.")
       }
-      setProducts([...products, newItem])
+
+      const savedProduct = await response.json()
+
+      setProducts((prevProducts) => [...prevProducts, savedProduct])
       setErrorClass("no-error")
       setErrorMessage("")
       e.target.reset()
+    } catch (error) {
+      console.error("Error saving product:", error)
+      setErrorClass("form-error")
+      setErrorMessage("Failed to save the product. Try again.")
     }
   }
 
@@ -94,10 +85,30 @@ const Inventory = () => {
     item.product_name.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
-  const handleDelete = (id) => {
-    setProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== id)
-    )
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/companies/inventory/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error("Error deleting product.")
+      }
+
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product.id !== id)
+      )
+    } catch (error) {
+      console.error("Error deleting product:", error)
+      setErrorClass("form-error")
+      setErrorMessage("Failed to delete the product. Try again.")
+    }
   }
 
   return (
@@ -118,7 +129,7 @@ const Inventory = () => {
             filteredProducts.map((item) => (
               <li key={item.id} className="inventory-item">
                 <div>
-                  <h3 className="list-title">{item.name}</h3>
+                  <h3 className="list-title">{item.product_name}</h3>
                 </div>
                 <div>
                   <span className="list-span">ID:</span> {item.id}
@@ -147,7 +158,7 @@ const Inventory = () => {
               </li>
             ))
           ) : (
-            <li>No products found</li>
+            <li className="no-products-found-message">No products found</li>
           )}
         </ul>
       </div>

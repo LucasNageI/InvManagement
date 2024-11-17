@@ -1,12 +1,7 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
-import {
-  usernameVerification,
-  emailVerification,
-  passwordVerification,
-  verifyPasswords,
-} from "../utils/index.js"
+import { usernameVerification, passwordVerification } from "../utils/index.js"
 import "../styles/screen_styles/AddCompany.css"
 
 const AddCompany = () => {
@@ -15,56 +10,88 @@ const AddCompany = () => {
   const navigate = useNavigate()
 
   const authToken = sessionStorage.getItem("auth_token")
+  console.log("authToken:", authToken)
+
+  const getUserData = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/companies/get-user-profile",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      )
+
+      if (response.ok) {
+        return await response.json()
+      } else {
+        throw new Error("Error al obtener los datos del usuario")
+      }
+    } catch (error) {
+      console.error(error)
+      return null
+    }
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     const company_name = event.target["company_name"].value
-    const business_email = event.target["business_email"].value
-    const business_password = event.target["business_password"].value
-    const confirm_password = event.target["confirm_business_password"].value
+    const password = event.target["password"].value
 
-    // Validaciones
+    const isPasswordValid = passwordVerification(password)
     const isCompanyNameValid = usernameVerification(company_name)
-    const isBusinessEmailValid = emailVerification(business_email)
-    const isBusinessPasswordValid = passwordVerification(business_password)
-    const isSamePassword = verifyPasswords(business_password, confirm_password)
 
-    if (
-      !isCompanyNameValid ||
-      !isBusinessEmailValid ||
-      !isBusinessPasswordValid ||
-      !isSamePassword
-    ) {
-      setErrorMessage("Please fix the errors in the form")
+    if (!isCompanyNameValid || !isPasswordValid) {
+      setErrorMessage("Invalid company name or password")
       setErrorClass("form-error")
-    } else {
-      try {
-        const response = await fetch(
-          "http://localhost:5000/api/companies/create",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${authToken}`,
-            },
-            body: JSON.stringify({
-              businessEmail: business_email,
-              businessPassword: business_password,
-              businessName: company_name,
-            }),
-          }
-        )
+      return
+    }
 
-        const data = await response.json()
-        if (response.ok) {
-          console.log(data)
-          navigate("/home")
-        } else {
-          throw new Error(`Error: ${data.message}`)
-        }
-      } catch (error) {
-        console.error(error)
+    if (!authToken) {
+      setErrorMessage("No token found. Please log in again.")
+      setErrorClass("form-error")
+      return
+    }
+
+    try {
+      const userData = await getUserData()
+
+      if (!userData) {
+        setErrorMessage("Error al obtener los datos del usuario")
+        setErrorClass("form-error")
+        return
       }
+
+      const response = await fetch(
+        "http://localhost:5000/api/companies/add-company",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify({
+            password: password,
+            businessName: company_name,
+          }),
+        }
+      )
+
+      const data = await response.json()
+
+      if (response.ok) {
+        console.log(data)
+        navigate("/home")
+      } else {
+        throw new Error(data.message || "Something went wrong.")
+      }
+    } catch (error) {
+      console.error(error)
+      setErrorMessage(error.message || "An unexpected error occurred.")
+      setErrorClass("form-error")
     }
   }
 
@@ -85,39 +112,15 @@ const AddCompany = () => {
           />
         </div>
         <div className="form-input-container">
-          <label className="form-labels" htmlFor="business_email">
-            Business Email Address:
-          </label>
-          <input
-            className="form-inputs"
-            autoComplete="off"
-            type="email"
-            id="business_email"
-            name="business_email"
-          />
-        </div>
-        <div className="form-input-container">
-          <label className="form-labels" htmlFor="business_password">
-            Business Password:
+          <label className="form-labels" htmlFor="password">
+            Password:
           </label>
           <input
             className="form-inputs"
             autoComplete="off"
             type="password"
-            id="business_password"
-            name="business_password"
-          />
-        </div>
-        <div className="form-input-container">
-          <label className="form-labels" htmlFor="confirm_business_password">
-            Confirm Business Password:
-          </label>
-          <input
-            className="form-inputs"
-            autoComplete="off"
-            type="password"
-            id="confirm_business_password"
-            name="confirm_business_password"
+            id="password"
+            name="password"
           />
         </div>
         <div className={errorClass}>

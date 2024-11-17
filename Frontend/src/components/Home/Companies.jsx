@@ -1,17 +1,21 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import "../../styles/component_styles/Home/Companies.css"
+
 const Company = ({ companies }) => {
-  const companies_array = companies.map((company) => {
+  const companiesArray = companies.map((company) => {
+    const formattedDate = company.createdAt
+      ? new Date(company.createdAt).toLocaleDateString()
+      : "no date"
     return (
-      <div className="company" key={company.id}>
+      <div className="company" key={company._id}>
         <div className="info-container">
-          <span className="company-title">{company.business_name}</span>
-          <span>Creation date: {company.creation_date}</span>
+          <span className="company-title">{company.businessName}</span>
+          <span>Creation date: {formattedDate}</span>
         </div>
         <div className="launch-slack-container">
           <Link
-            to={`/Company/${company.id}/inventory`}
+            to={`/company/${company._id}/inventory`}
             className="launch-company"
           >
             <button className="launch-btn">Launch</button>
@@ -20,7 +24,12 @@ const Company = ({ companies }) => {
       </div>
     )
   })
-  return companies_array
+
+  return (
+    <div className="companies-list">
+      {companiesArray.length > 0 ? companiesArray : <p>No companies found.</p>}
+    </div>
+  )
 }
 
 export default Company

@@ -133,6 +133,13 @@
   align-items: center;
 }
 
+.no-employees-found-message {
+  color: white;
+  font-size: 18px;
+  text-align: center;
+  margin: 20px 0;
+}
+
 .list-title {
   font-weight: bold;
   font-size: 25px;

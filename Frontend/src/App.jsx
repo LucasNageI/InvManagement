@@ -19,46 +19,7 @@ import {
 import NotFound from "./components/NotFound.jsx"
 import PrivateRoute from "./components/PrivateRoute.jsx"
 
-function App() {
-  const [companies, setCompanies] = useState([])
-
-  const fetchCompanies = async () => {
-    const token = sessionStorage.getItem("auth_token")
-    if (!token) return
-
-    try {
-      const response = await fetch("http://localhost:5000/api/companies", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-
-      if (response.status === 404) {
-        console.warn("No companies found for this user.")
-        setCompanies([])
-        return
-      }
-
-      if (!response.ok) {
-        throw new Error("Error fetching companies")
-      }
-
-      const data = await response.json()
-      setCompanies(data)
-    } catch (error) {
-      console.error(
-        "An error occurred while fetching companies:",
-        error.message
-      )
-    }
-  }
-
-  useEffect(() => {
-    fetchCompanies()
-  }, [])
-
+const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/landing" />} />
@@ -84,7 +45,7 @@ function App() {
         element={
           <PrivateRoute>
             {" "}
-            <Home companies={companies} />{" "}
+            <Home />{" "}
           </PrivateRoute>
         }
       />
@@ -111,8 +72,7 @@ function App() {
         path="/company/:company_id/*"
         element={
           <PrivateRoute>
-            {" "}
-            <Company companies={companies} />{" "}
+            <Company />
           </PrivateRoute>
         }
       />

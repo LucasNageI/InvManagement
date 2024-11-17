@@ -27,6 +27,21 @@ class CompanyRepository {
   }
 
   /**
+   * Buscar una compañía por nombre
+   * @param {string} businessName - Nombre de la compañía
+   * @returns {Promise<Object>} - La compañía encontrada
+   */
+  static async findByName(businessName) {
+    try {
+      return await Company.findOne({ businessName })
+    } catch (error) {
+      throw new Error(
+        "Error al buscar la compañía por nombre: " + error.message
+      )
+    }
+  }
+
+  /**
    * Crear una nueva compañía
    * @param {Object} companyData - Datos de la nueva compañía
    * @returns {Promise<Object>} - La compañía creada

@@ -63,6 +63,13 @@
   overflow-y: auto;
 }
 
+.no-products-found-message {
+  color: white;
+  font-size: 18px;
+  text-align: center;
+  margin: 20px 0;
+}
+
 .inventory-item {
   padding: 10px;
 }

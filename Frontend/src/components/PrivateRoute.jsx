@@ -2,10 +2,10 @@ import React from "react"
 import { Navigate } from "react-router-dom"
 
 const PrivateRoute = ({ children }) => {
-  const token = sessionStorage.getItem("auth_token")
+  const authToken = sessionStorage.getItem("auth_token")
 
-  if (!token) {
-    return <Navigate to="/landing" replace />
+  if (!authToken) {
+    return <Navigate to="/login" />
   }
 
   return children
