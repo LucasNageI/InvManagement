@@ -1,92 +1,100 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import "../../styles/component_styles/Company/Employees.css"
-import { usernameVerification, isPositiveNumber } from "../../utils/index.js"
+import { isPositiveNumber, usernameVerification } from "../../utils"
+import { useParams } from "react-router-dom"
+import EmployeesList from "./EmployeesList"
 
 const Employees = () => {
-  const [errorMessage, setErrorMessage] = useState("")
-  const [errorClass, setErrorClass] = useState("no-error")
   const [searchQuery, setSearchQuery] = useState("")
-  const [employees, setEmployees] = useState([
-    {
-      id: 1,
-      full_name: "John Doe",
-      job: "Manager",
-      salary: 5000,
-      years_worked: 3,
-      state: "Active",
-    },
-    {
-      id: 2,
-      full_name: "Jane Smith",
-      job: "Sales Associate",
-      salary: 4000,
-      years_worked: 2,
-      state: "Inactive",
-    },
-    {
-      id: 3,
-      full_name: "Michael Johnson",
-      job: "HR Manager",
-      salary: 6000,
-      years_worked: 4,
-      state: "Active",
-    },
-    {
-      id: 4,
-      full_name: "Emily Davis",
-      job: "Financial Analyst",
-      salary: 5500,
-      years_worked: 3,
-      state: "Inactive",
-    },
-  ])
+  const [errorClass, setErrorClass] = useState("no-error")
+  const [errorMessage, setErrorMessage] = useState("")
+  const [employees, setEmployees] = useState([])
+  const [editingEmployee, setEditingEmployee] = useState(null)
+  const authToken = sessionStorage.getItem("auth_token")
+  const { company_id } = useParams()
 
-  const handleSubmit = (e) => {
+  const fetchAllEmployees = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/companies/${company_id}/get-employees`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch employees.")
+      }
+
+      const data = await response.json()
+      setEmployees(data)
+    } catch (error) {
+      console.error("Error fetching employees:", error)
+      setErrorClass("form-error")
+      setErrorMessage("Failed to fetch employees. Please try again.")
+    }
+  }
+
+  useEffect(() => {
+    fetchAllEmployees()
+  }, [])
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-
     const full_name = e.target.full_name.value
     const job = e.target.job.value
     const salary = e.target.salary.value
     const years_worked = e.target.years_worked.value
 
-    const isFullNameValid = usernameVerification(full_name)
-    const isJobValid = usernameVerification(job)
-    const isSalaryValid = isPositiveNumber(salary)
-    const isYearsWorkedValid = isPositiveNumber(years_worked)
+    if (
+      !usernameVerification(full_name) ||
+      !usernameVerification(job) ||
+      !isPositiveNumber(salary) ||
+      !isPositiveNumber(years_worked)
+    ) {
+      setErrorClass("form-error")
+      setErrorMessage("Invalid inputs. Please check the fields.")
+      return
+    }
 
-    if (!isFullNameValid) {
-      setErrorClass("form-error")
-      setErrorMessage("Invalid name")
-    } else if (!isJobValid) {
-      setErrorClass("form-error")
-      setErrorMessage("Invalid job name")
-    } else if (!isSalaryValid) {
-      setErrorClass("form-error")
-      setErrorMessage("Invalid number of salary")
-    } else if (!isYearsWorkedValid) {
-      setErrorClass("form-error")
-      setErrorMessage("Invalid number of years worked")
-    } else {
-      const newEmployee = {
-        id: employees.length + 1,
-        full_name,
-        job,
-        salary,
-        years_worked,
-        state: "Active",
+    const newEmployee = {
+      full_name,
+      job,
+      salary,
+      years_worked,
+      state: "Active",
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/companies/${company_id}/employees`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify(newEmployee),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error("Error saving employee.")
       }
-      setEmployees([...employees, newEmployee])
+
+      const savedEmployee = await response.json()
+      setEmployees((prevEmployees) => [...prevEmployees, savedEmployee])
       setErrorClass("no-error")
       setErrorMessage("")
       e.target.reset()
+    } catch (error) {
+      console.error("Error saving employee:", error)
+      setErrorClass("form-error")
+      setErrorMessage("Failed to save the employee. Try again.")
     }
-  }
-  const filteredEmployees = employees.filter((employee) =>
-    employee.full_name.toLowerCase().includes(searchQuery.toLowerCase())
-  )
-  const handleDelete = (id) => {
-    const updatedEmployees = employees.filter((employee) => employee.id !== id)
-    setEmployees(updatedEmployees)
   }
 
   return (
@@ -101,97 +109,74 @@ const Employees = () => {
         className="search-input"
       />
 
-      <div className="list-container">
-        <ul className="employees-list">
-          {filteredEmployees.length > 0 ? (
-            filteredEmployees.map((employee) => (
-              <li key={employee.id} className="employees-item">
-                <div>
-                  <h3 className="list-title">{employee.full_name}</h3>
-                </div>
-                <div>
-                  <span className="list-span">ID:</span> {employee.id}
-                </div>
-                <div>
-                  <span className="list-span">Salary:</span> {employee.salary}
-                </div>
-                <div>
-                  <span className="list-span">Job:</span> {employee.job}
-                </div>
-                <div>
-                  <span className="list-span">Years Worked:</span>{" "}
-                  {employee.years_worked}
-                </div>
-                <div>
-                  <span className="list-span">State:</span> {employee.state}
-                </div>
-                <div className="employees-actions">
-                  <button
-                    className="table-icon-button delete-button"
-                    onClick={() => handleDelete(employee.id)}
-                  >
-                    <span>Delete</span>
-                    <i className="bi bi-trash table-icon"></i>
-                  </button>
-                </div>
-              </li>
-            ))
-          ) : (
-            <li className="no-employees-found-message">No employees found</li>
-          )}
-        </ul>
-      </div>
+      <EmployeesList
+        employees={employees}
+        searchQuery={searchQuery}
+        setEmployees={setEmployees}
+        authToken={authToken}
+        company_id={company_id}
+        editingEmployee={editingEmployee}
+        setEditingEmployee={setEditingEmployee}
+        setErrorClass={setErrorClass}
+        setErrorMessage={setErrorMessage}
+      />
 
-      <h2 className="h2-title">Add Employee</h2>
-      <form onSubmit={handleSubmit} className="employees-form">
-        <div className="employees-form-inputs-container">
-          <label className="employees-form-labels" htmlFor="Name">
-            Full Name:
-          </label>
-          <input
-            className="employees-form-inputs"
-            type="text"
-            name="full_name"
-          />
-        </div>
-        <div className="employees-form-inputs-container">
-          <label className="employees-form-labels" htmlFor="Salary">
-            Salary:
-          </label>
-          <input
-            className="employees-form-inputs"
-            type="number"
-            name="salary"
-          />
-        </div>
-        <div className="employees-form-inputs-container">
-          <label className="employees-form-labels" htmlFor="job">
-            Job:
-          </label>
-          <input className="employees-form-inputs" type="text" name="job" />
-        </div>
-        <div className="employees-form-inputs-container">
-          <label className="employees-form-labels" htmlFor="Years Worked">
-            Years Worked:
-          </label>
-          <input
-            className="employees-form-inputs"
-            type="number"
-            name="years_worked"
-          />
-        </div>
-        <div className="employees-form-inputs-container">
-          <select className="employees-form-inputs" id="state">
-            <option value="Active">Avalible</option>
-            <option value="Inactive">Not Avalible</option>
-          </select>
-        </div>
-        <div className={errorClass}>
-          <i className="bi bi-exclamation-triangle-fill"></i>
-          <p>{errorMessage}</p>
-        </div>
-        <button className="form-submit-button">Save</button>
-      </form>
+      {!editingEmployee && (
+        <>
+          <h2 className="h2-title">Add Employee</h2>
+          <form onSubmit={handleSubmit} className="employees-form">
+            <div className="employees-form-inputs-container">
+              <label className="employees-form-labels" htmlFor="full_name">
+                Full Name:
+              </label>
+              <input
+                className="employees-form-inputs"
+                type="text"
+                name="full_name"
+                id="full_name"
+              />
+            </div>
+            <div className="employees-form-inputs-container">
+              <label className="employees-form-labels" htmlFor="job">
+                Job:
+              </label>
+              <input
+                className="employees-form-inputs"
+                type="text"
+                name="job"
+                id="job"
+              />
+            </div>
+            <div className="employees-form-inputs-container">
+              <label className="employees-form-labels" htmlFor="salary">
+                Salary:
+              </label>
+              <input
+                className="employees-form-inputs"
+                type="number"
+                name="salary"
+                id="salary"
+              />
+            </div>
+            <div className="employees-form-inputs-container">
+              <label className="employees-form-labels" htmlFor="years_worked">
+                Years Worked:
+              </label>
+              <input
+                className="employees-form-inputs"
+                type="number"
+                name="years_worked"
+                id="years_worked"
+              />
+            </div>
+            <button className="form-submit-button" type="submit">
+              Add Employee
+            </button>
+          </form>
+        </>
+      )}
+
+      {errorMessage && <p className={errorClass}>{errorMessage}</p>}
     </div>
   )
 }

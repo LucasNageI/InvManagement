@@ -28,10 +28,12 @@ const companySchema = new mongoose.Schema(
         ref: "InventoryItem",
       },
     ],
-    employees: {
-      type: Array,
-      default: [],
-    },
+    employees: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Employee",
+          },
+    ]
   },
   { timestamps: true }
 )

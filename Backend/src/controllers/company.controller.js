@@ -4,6 +4,7 @@ import CompanyRepository from "../repositories/company.repositiry.js"
 import User from "../models/UserModel.js"
 import Company from "../models/CompanyModel.js"
 import InventoryItem from "../models/InventoryModel.js"
+import Employee from "../models/EmployeeModel.js"
 import { comparePasswords } from "../helpers/auth.js"
 import mongoose from "mongoose"
 
@@ -194,6 +195,48 @@ export const createInventoryItemController = async (req, res) => {
   }
 }
 
+export const updateInventoryController = async (req, res) => {
+  try {
+    const { id } = req.params // ID del producto a actualizar
+    const { product_name, price, stock, state, category } = req.body
+
+    // Validación de campos requeridos
+    if (!product_name || !price || !stock || !state || !category) {
+      return res.status(400).json({ message: "All fields are required." })
+    }
+
+    // Validar que los números sean positivos
+    if (price < 0 || stock < 0) {
+      return res
+        .status(400)
+        .json({ message: "Price and stock must be positive numbers." })
+    }
+
+    // Validar estado
+    if (!["Active", "Inactive"].includes(state)) {
+      return res
+        .status(400)
+        .json({ message: "State must be either 'Active' or 'Inactive'." })
+    }
+
+    // Actualizar el producto
+    const updatedInventoryItem = await InventoryItem.findByIdAndUpdate(
+      id,
+      { product_name, price, stock, state, category },
+      { new: true, runValidators: true } // `new: true` devuelve el documento actualizado
+    )
+
+    if (!updatedInventoryItem) {
+      return res.status(404).json({ message: "Inventory item not found." })
+    }
+
+    res.status(200).json(updatedInventoryItem)
+  } catch (error) {
+    console.error("Error updating inventory item:", error)
+    res.status(500).json({ message: "Failed to update inventory item." })
+  }
+}
+
 export const getInventoryItemsController = async (req, res) => {
   try {
     const products = await InventoryItem.find()
@@ -217,5 +260,97 @@ export const deleteInventoryItemController = async (req, res) => {
   } catch (error) {
     console.error("Error deleting inventory item:", error)
     res.status(500).json({ message: "Failed to delete inventory item." })
+  }
+}
+export const createEmployeeController = async (req, res) => {
+  try {
+    const { full_name, job, salary, years_worked, state } = req.body
+
+    // Validar que todos los campos estén presentes.
+    if (!full_name || !job || !salary || !years_worked || !state) {
+      return res.status(400).json({ message: "All fields are required." })
+    }
+
+    // Crear el nuevo empleado.
+    const newEmployee = new Employee({
+      full_name,
+      job,
+      salary,
+      years_worked,
+      state,
+    })
+
+    // Guardar el empleado en la base de datos.
+    const savedEmployee = await newEmployee.save()
+
+    res.status(201).json(savedEmployee)
+  } catch (error) {
+    console.error("Error creating employee:", error)
+    res.status(500).json({ message: "Failed to create employee." })
+  }
+}
+
+export const updateEmployeeController = async (req, res) => {
+  try {
+    const { id } = req.params // ID del empleado a actualizar
+    const { full_name, job, salary, years_worked, state } = req.body
+
+    // Validación de campos requeridos
+    if (!full_name || !job || !salary || !years_worked || !state) {
+      return res.status(400).json({ message: "All fields are required." })
+    }
+
+    // Validar que los números sean positivos
+    if (salary < 0 || years_worked < 0) {
+      return res
+        .status(400)
+        .json({ message: "Salary and years worked must be positive numbers." })
+    }
+
+    // Actualizar el empleado
+    const updatedEmployee = await Employee.findByIdAndUpdate(
+      id,
+      { full_name, job, salary, years_worked, state },
+      { new: true, runValidators: true } // `new: true` devuelve el documento actualizado
+    )
+
+    if (!updatedEmployee) {
+      return res.status(404).json({ message: "Employee not found." })
+    }
+
+    res.status(200).json(updatedEmployee)
+  } catch (error) {
+    console.error("Error updating employee:", error)
+    res.status(500).json({ message: "Failed to update employee." })
+  }
+}
+
+export const getEmployeesController = async (req, res) => {
+  try {
+    // Obtener todos los empleados de la base de datos.
+    const employees = await Employee.find()
+
+    res.status(200).json(employees)
+  } catch (error) {
+    console.error("Error fetching employees:", error)
+    res.status(500).json({ message: "Failed to fetch employees." })
+  }
+}
+
+export const deleteEmployeeController = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    // Buscar y eliminar el empleado por su ID.
+    const deletedEmployee = await Employee.findByIdAndDelete(id)
+
+    if (!deletedEmployee) {
+      return res.status(404).json({ message: "Employee not found." })
+    }
+
+    res.status(200).json({ message: "Employee deleted successfully." })
+  } catch (error) {
+    console.error("Error deleting employee:", error)
+    res.status(500).json({ message: "Failed to delete employee." })
   }
 }

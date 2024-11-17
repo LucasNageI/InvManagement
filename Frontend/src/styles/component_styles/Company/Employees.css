@@ -63,9 +63,65 @@
 
 .employees-form-labels {
   color: #ffffff;
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 5px;
   font-weight: bold;
+}
+
+.edit-button {
+  background-color: #7581ff;
+  color: white;
+  padding: 5px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 70px;
+  transition: all 0.3s ease;
+}
+
+.delete-button {
+  background-color: #ff4b2f;
+  color: white;
+  padding: 5px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 70px;
+  transition: all 0.3s ease;
+}
+
+.edit-employee-form {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  max-width: 300px;
+  gap: 5px;
+}
+
+.save-edit-button {
+  background-color: #7581ff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px;
+  transition: all 0.3s ease;
+}
+
+.cancel-edit-button {
+  background-color: #ff4b2f;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px;
+  transition: all 0.3s ease;
 }
 
 .employees-form-inputs {
@@ -116,10 +172,17 @@
   overflow: hidden;
   max-height: 95vh;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .employees-item {
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 10px;
 }
 
 .employees-item div {
@@ -142,12 +205,21 @@
 
 .list-title {
   font-weight: bold;
-  font-size: 25px;
+  font-size: 30px;
   color: #7581ff;
 }
 
 .list-span {
   font-weight: bold;
+  font-size: 18px;
+}
+
+.employee-info {
+  display: flex;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .table-icon {
