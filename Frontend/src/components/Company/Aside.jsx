@@ -59,10 +59,10 @@ const Aside = () => {
       </nav>
 
       {showLogoutScreen && (
-        <div className="modal-overlay">
-          <div className="modal">
+        <div className="log-out-screen-overlay">
+          <div className="log-out-screen">
             <p>Are you sure you want to log out?</p>
-            <div className="modal-actions">
+            <div className="log-out-screen-actions">
               <button className="back-btn" onClick={handleCancel}>
                 Back
               </button>

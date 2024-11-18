@@ -37,13 +37,6 @@
   color: #7581ff;
 }
 
-.list-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  width: 100%;
-}
-
 .inventory-list {
   list-style-type: none;
   padding: 20px;
@@ -56,6 +49,58 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.inventory-form {
+  margin: 20px 0;
+  width: 80%;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #ededed;
+  border-radius: 10px;
+}
+
+.inventory-form-inputs-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.inventory-form-labels {
+  color: #4a4a4b;
+  font-size: 16px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.inventory-form-inputs {
+  padding: 10px;
+  background-color: #e0e1e4;
+  border: none;
+  border-radius: 5px;
+  color: #4a4a4b;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.inventory-form-inputs:focus {
+  outline: none;
+}
+
+.form-submit-button {
+  background-color: #7581ff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.form-submit-button:hover {
+  background-color: #5a67ff;
 }
 
 .no-products-found-message {
@@ -183,58 +228,6 @@
 .inventory-actions button:hover {
   background-color: #ffffff;
   color: #000;
-}
-
-.inventory-form {
-  margin: 20px 0;
-  width: 80%;
-  max-width: 600px;
-  padding: 20px;
-  background-color: #ededed;
-  border-radius: 10px;
-}
-
-.inventory-form-inputs-container {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-}
-
-.inventory-form-labels {
-  color: #4a4a4b;
-  font-size: 16px;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.inventory-form-inputs {
-  padding: 10px;
-  background-color: #e0e1e4;
-  border: none;
-  border-radius: 5px;
-  color: #4a4a4b;
-  font-size: 16px;
-  transition: all 0.3s ease;
-}
-
-.inventory-form-inputs:focus {
-  outline: none;
-}
-
-.form-submit-button {
-  background-color: #7581ff;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 100%;
-  transition: all 0.3s ease;
-}
-
-.form-submit-button:hover {
-  background-color: #5a67ff;
 }
 
 @media screen and (max-width: 499px) {

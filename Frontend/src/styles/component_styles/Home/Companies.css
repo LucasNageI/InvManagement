@@ -15,7 +15,7 @@
 .info-container {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
   gap: 5px;
 }
@@ -29,13 +29,12 @@
   color: #ffffff;
   border: none;
   padding: 5px 10px;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
 }
 
 .launch-btn:hover {
   background-color: #66676b;
   color: #ffffff;
-  cursor: pointer;
 }
 
 @media (min-width: 500px) {
@@ -43,16 +42,19 @@
     width: 280px;
   }
 }
+
 @media (min-width: 800px) {
   .company {
     width: 400px;
   }
 }
+
 @media (min-width: 1000px) {
   .company {
     width: 700px;
   }
 }
+
 @media (min-width: 1350px) {
   .company {
     width: 800px;

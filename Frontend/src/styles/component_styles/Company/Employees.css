@@ -55,6 +55,36 @@
   font-weight: bold;
 }
 
+.employees-form-inputs {
+  padding: 10px;
+  background-color: #e0e1e4;
+  border: none;
+  border-radius: 5px;
+  color: #4a4a4b;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.employees-form-inputs:focus {
+  outline: none;
+}
+
+.form-submit-button {
+  background-color: #7581ff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.form-submit-button:hover {
+  background-color: #5a67ff;
+}
+
 .edit-button {
   background-color: #7581ff;
   color: white;
@@ -109,36 +139,6 @@
   cursor: pointer;
   width: 200px;
   transition: all 0.3s ease;
-}
-
-.employees-form-inputs {
-  padding: 10px;
-  background-color: #e0e1e4;
-  border: none;
-  border-radius: 5px;
-  color: #4a4a4b;
-  font-size: 16px;
-  transition: all 0.3s ease;
-}
-
-.employees-form-inputs:focus {
-  outline: none;
-}
-
-.form-submit-button {
-  background-color: #7581ff;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 100%;
-  transition: all 0.3s ease;
-}
-
-.form-submit-button:hover {
-  background-color: #5a67ff;
 }
 
 .list-container {
@@ -250,6 +250,7 @@
     width: 100%;
     margin-left: 0;
   }
+
   .employees-list {
     max-height: 85vh;
   }

@@ -21,14 +21,6 @@ p {
   color: #4a4a4b;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-}
-
 .h1-title {
   color: #7581ff;
   font-size: 40px;
@@ -41,25 +33,12 @@ p {
   font-weight: bold;
 }
 
-.form-inputs {
-  color: #1f1f1f;
-  width: 250px;
-  height: 30px;
-  border-radius: 5px;
-  border: none;
-  border: 1px solid #7c7c7c71;
-  background-color: transparent;
-  padding: 3px;
-}
-
-.form-inputs:hover {
-  border: 1px solid #1f1f1f;
-}
-
-.form-inputs:focus {
-  border: 1px solid #1f1f1f;
-  overflow: hidden;
-  outline: none;
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
 }
 
 .form-inputs-container {
@@ -76,6 +55,23 @@ p {
   align-items: start;
   justify-content: center;
   gap: 10px;
+}
+
+.form-inputs {
+  color: #1f1f1f;
+  width: 250px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid #7c7c7c71;
+  background-color: transparent;
+  padding: 3px;
+}
+
+.form-inputs:hover,
+.form-inputs:focus {
+  border: 1px solid #1f1f1f;
+  overflow: hidden;
+  outline: none;
 }
 
 .form-labels {
@@ -165,9 +161,11 @@ p {
     width: 400px;
     height: 50px;
   }
+
   .form-links {
     width: 400px;
   }
+
   .form-submit-button {
     width: 400px;
     height: 50px;

@@ -8,13 +8,12 @@
 
 .logo {
   display: flex;
-  height: 35px;
   align-items: center;
   justify-content: center;
   gap: 3px;
-  background-color: #ededed;
   height: 50px;
   padding: 8px;
+  background-color: #ededed;
   border-radius: 50px;
 }
 
@@ -43,7 +42,7 @@
   border-radius: 50px;
   color: #ffffff;
   font-size: 12px;
-  transition: all, 0.3s;
+  transition: all 0.3s ease;
 }
 
 .header-sign-up:hover {
@@ -61,7 +60,7 @@
   border-radius: 50px;
   color: #1f1f1f;
   font-size: 12px;
-  transition: all, 0.3s;
+  transition: all 0.3s ease;
 }
 
 .header-log-in:hover {

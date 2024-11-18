@@ -19,10 +19,14 @@
   border-radius: 10px;
 }
 
-.companies-title-container {
-  border-bottom: 1px solid #7979797a;
-  width: 100%;
-  padding: 5px;
+.welcome {
+  animation: colorShift 2s infinite;
+}
+
+.h1-title {
+  font-size: 32px;
+  text-align: center;
+  color: #4a4a4b;
 }
 
 .companies-container {
@@ -37,6 +41,12 @@
   border-radius: 5px;
 }
 
+.companies-title-container {
+  border-bottom: 1px solid #7979797a;
+  width: 100%;
+  padding: 5px;
+}
+
 .companies-title {
   font-weight: 600;
   font-size: 25px;
@@ -46,14 +56,6 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-}
-
-.welcome {
-  animation: colorShift 2s infinite;
-}
-
-.log-out-span {
-  font-size: 16px;
 }
 
 .log-out {
@@ -71,6 +73,63 @@
   color: #ededed;
 }
 
+.log-out-span {
+  font-size: 16px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
+.back-btn,
+.sure-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-btn {
+  background-color: #ededed;
+  color: #66676b;
+}
+
+.back-btn:hover {
+  background-color: #66676b;
+  color: #ffffff;
+}
+
+.sure-btn {
+  background-color: #f3725f;
+  color: #ffffff;
+}
+
+.sure-btn:hover {
+  background-color: #ff4b2f;
+}
+
 @keyframes colorShift {
   0% {
     color: #7581ff;
@@ -86,28 +145,24 @@
 @media (min-width: 500px) {
   .companies-container {
     width: 280px;
-    display: flex;
     align-items: center;
   }
 }
+
 @media (min-width: 800px) {
   .companies-container {
     width: 400px;
-    display: flex;
-    align-items: center;
   }
 }
+
 @media (min-width: 1000px) {
   .companies-container {
     width: 700px;
-    display: flex;
-    align-items: center;
   }
 }
+
 @media (min-width: 1350px) {
   .companies-container {
     width: 800px;
-    display: flex;
-    align-items: center;
   }
 }

@@ -4,14 +4,13 @@
   max-width: 500px;
   padding: 30px;
   border-radius: 16px;
-  background-color: transparent;
+  background-color: #ededed;
   transition: border 0.3s ease;
   margin-left: 180px;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  background-color: #ededed;
 }
 
 .profile-container h1 {
