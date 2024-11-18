@@ -1,11 +1,18 @@
 .register-container {
   margin-top: 100px;
-  width: 300px;
-  height: 600px;
+  width: 500px;
+  height: 650px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   gap: 50px;
+  background-color: #ededed;
+}
+
+@media screen and (max-width: 700px) {
+  .register-container {
+    width: 300px;
+  }
 }

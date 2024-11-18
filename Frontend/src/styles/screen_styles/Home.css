@@ -5,6 +5,18 @@
   justify-content: space-between;
   gap: 70px;
   height: 100vh;
+  width: 100%;
+}
+
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #ededed;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .companies-title-container {
@@ -14,8 +26,8 @@
 }
 
 .companies-container {
-  background-color: #1f1f1f;
-  color: white;
+  background-color: #ededed;
+  color: #66676b;
   width: 280px;
   display: flex;
   flex-direction: column;
@@ -41,8 +53,22 @@
 }
 
 .log-out-span {
-  cursor: pointer;
   font-size: 16px;
+}
+
+.log-out {
+  cursor: pointer;
+  color: #66676b;
+  background-color: #ededed;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #7979797a;
+  transition: all 0.1s ease-in-out;
+}
+
+.log-out:hover {
+  background-color: #f3725f;
+  color: #ededed;
 }
 
 @keyframes colorShift {
@@ -50,7 +76,7 @@
     color: #7581ff;
   }
   50% {
-    color: #ffffff;
+    color: #66676b;
   }
   100% {
     color: #7581ff;

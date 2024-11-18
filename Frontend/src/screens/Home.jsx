@@ -74,7 +74,7 @@ const navigate = useNavigate()
   return (
     <div className="home-container">
       <Header />
-
+    <div className="welcome-container">
       <h1 className="h1-title welcome">Welcome Back!</h1>
       <div className="companies-container">
         <div className="companies-title-container">
@@ -94,6 +94,7 @@ const navigate = useNavigate()
             </Link>
           </div>
         </div>
+      </div>
       </div>
       <button onClick={handleLogOutClick} className="log-out">
         <i className="bi bi-box-arrow-right"></i>

@@ -9,7 +9,7 @@
 }
 
 .dashboard-title {
-  color: #ffffff;
+  color: #7581ff;
   font-size: 3.5rem;
   overflow: hidden;
   padding-right: 5px;
@@ -32,8 +32,8 @@
   align-items: center;
   justify-content: space-around;
   gap: 10px;
-  background-color: #1f1f1f;
-  color: white;
+  background-color: #ededed;
+  color: #4a4a4b;
   padding: 10px;
   border-radius: 5px;
 }
@@ -46,8 +46,8 @@
   align-items: center;
   justify-content: space-around;
   gap: 10px;
-  background-color: #1f1f1f;
-  color: white;
+  background-color: #ededed;
+  color: #4a4a4b;
   padding: 10px;
   border-radius: 5px;
 }

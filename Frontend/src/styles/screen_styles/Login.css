@@ -1,6 +1,6 @@
 .login-container {
   margin-top: 100px;
-  width: 300px;
+  width: 500px;
   height: 500px;
   display: flex;
   flex-direction: column;
@@ -8,4 +8,11 @@
   justify-content: center;
   border-radius: 10px;
   gap: 50px;
+  background-color: #ededed;
+}
+
+@media screen and (max-width: 700px) {
+  .login-container {
+    width: 300px;
+  }
 }

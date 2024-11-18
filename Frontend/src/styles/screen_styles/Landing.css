@@ -21,13 +21,13 @@
 }
 
 .landing-title {
-  color: #ffffff;
+  color: #66676b;
   font-size: 35px;
   font-weight: 100;
 }
 
 .landing-slogan {
-  color: #ffffff;
+  color: #66676b;
   font-size: 3.5rem;
   overflow: hidden;
   padding-right: 5px;
@@ -43,13 +43,13 @@
 
 @keyframes colorShift {
   0% {
-    color: #ffffff;
+    color: #7581ff;
   }
   50% {
-    color: #ffffff80;
+    color: #66676b;
   }
   100% {
-    color: #ffffff;
+    color: #7581ff;
   }
 }
 
@@ -75,14 +75,25 @@
 
 .landing-login {
   background-color: #ffffff;
-  color: black;
+  color: #66676b;
   font-weight: bold;
 }
 
+.landing-login:hover {
+  background-color: #66676b;
+  color: #ffffff;
+}
+
 .get-started {
-  border: 2px solid white;
+  color: #66676b;
+  border: 2px solid #66676b;
   background-color: transparent;
   font-weight: bold;
+}
+
+.get-started:hover {
+  color: #ffffff;
+  background-color: #66676b;
 }
 
 @media screen and (min-width: 700px) {

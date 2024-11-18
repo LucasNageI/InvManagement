@@ -1,5 +1,5 @@
 .aside {
-  background-color: #1f1f1f;
+  background-color: #ededed;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,11 +37,11 @@ li {
 }
 
 .link {
-  color: white;
+  color: #66676b;
   margin-bottom: 5px;
   cursor: pointer;
   text-decoration: none;
-  font-size: 10px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,7 +49,7 @@ li {
 }
 
 .aside-nav-links {
-  color: white;
+  color: #66676b;
   cursor: pointer;
   text-decoration: none;
   display: flex;
@@ -59,7 +59,7 @@ li {
 }
 
 .aside-nav-links:hover {
- color: #7581ff;
+  color: #7581ff;
 }
 
 i {
@@ -69,7 +69,7 @@ i {
 .log-out {
   background: none;
   border: none;
-  color: white;
+  color: #66676b;
   cursor: pointer;
   text-decoration: none;
   display: flex;
@@ -119,7 +119,8 @@ i {
   gap: 15px;
 }
 
-.back-btn, .sure-btn {
+.back-btn,
+.sure-btn {
   padding: 10px 20px;
   font-size: 14px;
   border-radius: 5px;
@@ -151,7 +152,6 @@ i {
 
 @media (min-width: 500px) {
   .aside {
-    background-color: #1f1f1f;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -174,14 +174,12 @@ i {
     align-items: start;
   }
 
-  .aside-role-span {
-    font-size: 20px;
-    font-weight: bold;
-    color: aliceblue;
-  }
-
   .aside-span {
     display: block;
-    font-size: 16px;
+    font-size: 20px;
+  }
+
+  .aside-span:hover {
+    font-weight: bold;
   }
 }

@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: center;
   gap: 3px;
-  background-color: #1f1f1f;
+  background-color: #ededed;
   height: 50px;
   padding: 8px;
   border-radius: 50px;
@@ -55,17 +55,17 @@
 .header-log-in {
   width: 100px;
   height: 44px;
-  background-color: #1f1f1f;
+  background-color: #ededed;
   border: none;
   padding: 8px;
   border-radius: 50px;
-  color: #ffffff;
+  color: #1f1f1f;
   font-size: 12px;
   transition: all, 0.3s;
 }
 
 .header-log-in:hover {
-  background-color: #ffffff;
-  color: #1f1f1f;
+  background-color: #1f1f1f;
+  color: #ededed;
   cursor: pointer;
 }

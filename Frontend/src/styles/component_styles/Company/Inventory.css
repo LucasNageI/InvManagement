@@ -9,36 +9,28 @@
 }
 
 .search-input {
-  color: white;
+  color: #4a4a4b;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 20px 0;
   border-radius: 50px;
-  background-color: #2e2e2e;
-  border: 1px solid #7979797a;
+  background-color: #ededed;
   padding: 5px;
   height: 40px;
   width: 80%;
   transition: all 0.3s ease;
+  border: none;
 }
 
 .search-input:focus {
   outline: none;
-  border: 1px solid #ffffff7a;
-  background-color: #3a3a3a;
+  background-color: #ededed;
 }
 
 .search-input::placeholder {
-  color: #bbbbbb;
+  color: #858585;
   font-size: 14px;
-}
-
-.search-icon {
-  color: #bbbbbb;
-  font-size: 18px;
-  cursor: pointer;
-  transition: color 0.3s ease;
 }
 
 .search-input:hover .search-icon {
@@ -56,7 +48,7 @@
   list-style-type: none;
   padding: 20px;
   width: 80%;
-  background-color: #1f1f1f;
+  background-color: #ededed;
   border-radius: 10px;
   overflow: hidden;
   max-height: 95vh;
@@ -198,9 +190,8 @@
   width: 80%;
   max-width: 600px;
   padding: 20px;
-  background-color: #2e2e2e;
+  background-color: #ededed;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .inventory-form-inputs-container {
@@ -210,26 +201,24 @@
 }
 
 .inventory-form-labels {
-  color: #ffffff;
-  font-size: 14px;
+  color: #4a4a4b;
+  font-size: 16px;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
 .inventory-form-inputs {
   padding: 10px;
-  background-color: #3a3a3a;
-  border: 1px solid #797979;
+  background-color: #e0e1e4;
+  border: none;
   border-radius: 5px;
-  color: white;
+  color: #4a4a4b;
   font-size: 16px;
   transition: all 0.3s ease;
 }
 
 .inventory-form-inputs:focus {
   outline: none;
-  border: 1px solid #7581ff;
-  background-color: #4a4a4a;
 }
 
 .form-submit-button {
