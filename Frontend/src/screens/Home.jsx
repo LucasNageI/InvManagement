@@ -1,23 +1,32 @@
 import React, { useEffect, useState } from "react"
 import Header from "../components/Home/Header.jsx"
 import Companies from "../components/Home/Companies.jsx"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import "../styles/screen_styles/Home.css"
 
 const Home = () => {
   const [companies, setCompanies] = useState([])
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [showLogoutScreen, setShowLogoutScreen] = useState(false)
+const navigate = useNavigate()
+  const handleLogOutClick = () => {
+    setShowLogoutScreen(true)
+  }
+
+  const handleLogout = () => {
+    navigate("/landing")
+    sessionStorage.removeItem("auth_token")
+  }
+
+  const handleCancel = () => {
+    setShowLogoutScreen(false)
+  }
 
   const fetchCompanies = async () => {
     const token = sessionStorage.getItem("auth_token")
     if (!token) {
-      setError("User is not authenticated.")
-      setLoading(false)
+      navigate("/login")
       return
     }
-
-    setError(null)
 
     try {
       const authToken = sessionStorage.getItem("auth_token")
@@ -36,18 +45,13 @@ const Home = () => {
       if (response.status === 404) {
         console.warn("No companies found for this user.")
         setCompanies([])
-        setLoading(false)
         return
       }
 
       if (!response.ok) {
         if (response.status === 403) {
-          setError("Session expired. Please log in again.")
           sessionStorage.removeItem("auth_token")
-        } else {
-          setError("An error occurred while fetching companies.")
         }
-        setLoading(false)
         return
       }
 
@@ -55,16 +59,12 @@ const Home = () => {
       if (data.ok) {
         setCompanies(data.data || [])
       } else {
-        setError(data.message || "An error occurred.")
       }
     } catch (error) {
       console.error(
         "An error occurred while fetching companies:",
         error.message
       )
-      setError("An unexpected error occurred.")
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -95,6 +95,25 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <button onClick={handleLogOutClick} className="log-out">
+        <i className="bi bi-box-arrow-right"></i>
+        <span className="log-out-span">LogOut</span>
+      </button>
+      {showLogoutScreen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <p>Are you sure you want to log out?</p>
+            <div className="modal-actions">
+              <button className="back-btn" onClick={handleCancel}>
+                Back
+              </button>
+              <button className="sure-btn" onClick={handleLogout}>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div />
     </div>
   )

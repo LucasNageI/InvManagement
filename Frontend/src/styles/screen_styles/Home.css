@@ -2,8 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 70px;
+  height: 100vh;
 }
 
 .companies-title-container {
@@ -37,6 +38,11 @@
 
 .welcome {
   animation: colorShift 2s infinite;
+}
+
+.log-out-span {
+  cursor: pointer;
+  font-size: 16px;
 }
 
 @keyframes colorShift {

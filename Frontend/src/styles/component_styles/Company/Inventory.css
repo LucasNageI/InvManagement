@@ -248,7 +248,7 @@
   background-color: #5a67ff;
 }
 
-@media screen and (max-width: 479px) {
+@media screen and (max-width: 499px) {
   .inventory-container {
     width: 100%;
     margin-left: 0;

@@ -10,7 +10,6 @@ const AddCompany = () => {
   const navigate = useNavigate()
 
   const authToken = sessionStorage.getItem("auth_token")
-  console.log("authToken:", authToken)
 
   const getUserData = async () => {
     try {
@@ -28,7 +27,7 @@ const AddCompany = () => {
       if (response.ok) {
         return await response.json()
       } else {
-        throw new Error("Error al obtener los datos del usuario")
+        throw new Error("Failed to get user data. Please log in again.")
       }
     } catch (error) {
       console.error(error)
@@ -60,7 +59,7 @@ const AddCompany = () => {
       const userData = await getUserData()
 
       if (!userData) {
-        setErrorMessage("Error al obtener los datos del usuario")
+        setErrorMessage("Failed to get user data. Please log in again.")
         setErrorClass("form-error")
         return
       }
@@ -83,7 +82,6 @@ const AddCompany = () => {
       const data = await response.json()
 
       if (response.ok) {
-        console.log(data)
         navigate("/home")
       } else {
         throw new Error(data.message || "Something went wrong.")

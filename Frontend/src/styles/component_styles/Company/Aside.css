@@ -56,12 +56,10 @@ li {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  transition: transform 0.1s ease;
 }
 
 .aside-nav-links:hover {
-  transform: scale(1.05);
-  color: #7581ff;
+ color: #7581ff;
 }
 
 i {
@@ -78,12 +76,10 @@ i {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  transition: transform 0.1s ease;
   font-size: 10px;
 }
 
 .log-out:hover {
-  transform: scale(1.05);
   color: #d9363e;
 }
 
@@ -123,8 +119,7 @@ i {
   gap: 15px;
 }
 
-.back-btn,
-.sure-btn {
+.back-btn, .sure-btn {
   padding: 10px 20px;
   font-size: 14px;
   border-radius: 5px;
@@ -154,7 +149,7 @@ i {
   background-color: #d9363e;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 500px) {
   .aside {
     background-color: #1f1f1f;
     display: flex;

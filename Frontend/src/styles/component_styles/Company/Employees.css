@@ -161,6 +161,7 @@
   justify-content: center;
   margin-top: 20px;
   width: 100%;
+  margin-bottom: 50px;
 }
 
 .employees-list {
@@ -259,7 +260,7 @@
   color: #000;
 }
 
-@media screen and (max-width: 479px) {
+@media screen and (max-width: 499px) {
   .employees-container {
     width: 100%;
     margin-left: 0;

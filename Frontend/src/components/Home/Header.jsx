@@ -6,11 +6,7 @@ const Header = () => {
   return (
     <header className="header">
       <div className="logo">
-        <img
-          className="header-logo"
-          src="./open-box-white.svg"
-          alt="InvManagement Logo"
-        />
+        <img className="header-logo" src="./open-box-white.svg" alt="InvManagement Logo"/>
         <span className="header-title">InvManagement</span>
       </div>
       <nav className="header-nav">

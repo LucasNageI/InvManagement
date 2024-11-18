@@ -10,13 +10,14 @@ const Inventory = () => {
   const [errorMessage, setErrorMessage] = useState("")
   const [inventoryItems, setInventoryItems] = useState([])
   const [editingItem, setEditingItem] = useState(null)
+  const [isAdmin, setIsAdmin] = useState(false)
   const authToken = sessionStorage.getItem("auth_token")
   const { company_id } = useParams()
 
   const fetchAllInventoryItems = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/companies/${company_id}/get-inventory`,
+        `http://localhost:5000/api/inventory/${company_id}/get-inventory`,
         {
           method: "GET",
           headers: {
@@ -29,17 +30,65 @@ const Inventory = () => {
         throw new Error("Failed to fetch inventory items.")
       }
 
-      const data = await response.json()
-      setInventoryItems(data)
+      const result = await response.json()
+
+      if (Array.isArray(result.data)) {
+        setInventoryItems(result.data)
+      } else {
+        console.error("Data is not an array:", result)
+        setErrorClass("form-error")
+        setErrorMessage("Unexpected data format.")
+      }
     } catch (error) {
       console.error("Error fetching inventory items:", error)
       setErrorClass("form-error")
       setErrorMessage("Failed to fetch inventory items. Please try again.")
     }
   }
+  const checkIfUserIsAdmin = async () => {
+    try {
+      const companyResponse = await fetch(
+        `http://localhost:5000/api/companies/${company_id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      )
+
+      if (!companyResponse.ok) {
+        throw new Error("Error fetching company data.")
+      }
+
+      const companyData = await companyResponse.json()
+
+      const userResponse = await fetch("http://localhost:5000/api/companies/get-user-profile", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+
+      if (!userResponse.ok) {
+        throw new Error("Error fetching user profile.")
+      }
+
+      const userData = await userResponse.json()
+
+      if (userData.data._id === companyData.data.adminUser) {
+        setIsAdmin(true)
+      }
+    } catch (error) {
+      console.error("Error checking admin status:", error)
+    }
+  }
 
   useEffect(() => {
     fetchAllInventoryItems()
+    checkIfUserIsAdmin()
   }, [])
 
   const handleSubmit = async (e) => {
@@ -48,28 +97,29 @@ const Inventory = () => {
     const price = e.target.price.value
     const stock = e.target.stock.value
     const category = e.target.category.value
-
-    if (
-      !usernameVerification(product_name) ||
-      !isPositiveNumber(price) ||
-      !isPositiveNumber(stock)
-    ) {
+  
+    if(
+        !usernameVerification(product_name) ||
+        !isPositiveNumber(price) ||
+        !isPositiveNumber(stock)
+      ) {
       setErrorClass("form-error")
       setErrorMessage("Invalid inputs. Please check the fields.")
       return
     }
-
+  
     const newItem = {
       product_name,
       price,
       stock,
       category,
       state: "Active",
+      company_id: company_id,
     }
-
+  
     try {
       const response = await fetch(
-        `http://localhost:5000/api/companies/${company_id}/inventory`,
+        `http://localhost:5000/api/inventory/${company_id}/inventory`,
         {
           method: "POST",
           headers: {
@@ -79,13 +129,15 @@ const Inventory = () => {
           body: JSON.stringify(newItem),
         }
       )
-
+  
       if (!response.ok) {
         throw new Error("Error saving inventory item.")
       }
-
+  
       const savedItem = await response.json()
-      setInventoryItems((prevItems) => [...prevItems, savedItem])
+  
+      setInventoryItems((prevItems) => [...prevItems, savedItem.data])
+  
       setErrorClass("no-error")
       setErrorMessage("")
       e.target.reset()
@@ -94,7 +146,7 @@ const Inventory = () => {
       setErrorClass("form-error")
       setErrorMessage("Failed to save the inventory item. Try again.")
     }
-  }
+  }  
 
   return (
     <div className="inventory-container">
@@ -118,9 +170,10 @@ const Inventory = () => {
         setEditingItem={setEditingItem}
         setErrorClass={setErrorClass}
         setErrorMessage={setErrorMessage}
+        isAdmin={isAdmin}
       />
 
-      {!editingItem && (
+      {isAdmin && !editingItem && (
         <>
           <h2 className="h2-title">Add Inventory Item</h2>
           <form onSubmit={handleSubmit} className="inventory-form">
@@ -133,6 +186,7 @@ const Inventory = () => {
                 type="text"
                 name="product_name"
                 id="product_name"
+                autoComplete="off"
               />
             </div>
             <div className="inventory-form-inputs-container">
@@ -144,6 +198,7 @@ const Inventory = () => {
                 type="number"
                 name="price"
                 id="price"
+                autoComplete="off"
               />
             </div>
             <div className="inventory-form-inputs-container">
@@ -155,6 +210,7 @@ const Inventory = () => {
                 type="number"
                 name="stock"
                 id="stock"
+                autoComplete="off"
               />
             </div>
             <div className="inventory-form-inputs-container">
@@ -166,6 +222,7 @@ const Inventory = () => {
                 type="text"
                 name="category"
                 id="category"
+                autoComplete="off"
               />
             </div>
             <button className="form-submit-button" type="submit">
@@ -174,8 +231,6 @@ const Inventory = () => {
           </form>
         </>
       )}
-
-      {errorMessage && <p className={errorClass}>{errorMessage}</p>}
     </div>
   )
 }

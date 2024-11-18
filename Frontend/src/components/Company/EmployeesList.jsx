@@ -1,17 +1,47 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { usernameVerification, isPositiveNumber } from "../../utils"
 
 const EmployeesList = ({
   employees,
-  searchQuery,
   setEmployees,
+  searchQuery,
   authToken,
   company_id,
   editingEmployee,
   setEditingEmployee,
   setErrorClass,
   setErrorMessage,
+  isAdmin,
 }) => {
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/employees/${company_id}/get-employees`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        )
+  
+        if (!response.ok) {
+          throw new Error("Failed to fetch employees.")
+        }
+  
+        const data = await response.json()
+
+        setEmployees(Array.isArray(data.data) ? data.data : [])
+      } catch (error) {
+        console.error("Error fetching employees:", error)
+        setEmployees([])
+      }
+    }
+  
+    fetchEmployees()
+  }, [company_id, authToken, setEmployees, setErrorClass, setErrorMessage])  
+
   const handleEdit = (employee) => {
     setEditingEmployee(employee)
     setErrorClass("no-error")
@@ -19,7 +49,6 @@ const EmployeesList = ({
   }
 
   const handleUpdate = async (e) => {
-    e.preventDefault()
     const updatedEmployee = {
       full_name: e.target.full_name.value,
       job: e.target.job.value,
@@ -41,7 +70,7 @@ const EmployeesList = ({
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/companies/${company_id}/update-employee/${editingEmployee._id}`,
+        `http://localhost:5000/api/employees/${company_id}/update-employee/${editingEmployee._id}`,
         {
           method: "PUT",
           headers: {
@@ -55,7 +84,7 @@ const EmployeesList = ({
       if (!response.ok) {
         throw new Error("Failed to update employee.")
       }
-
+      
       const updatedEmployeeFromServer = await response.json()
 
       setEmployees((prevEmployees) =>
@@ -82,7 +111,7 @@ const EmployeesList = ({
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/companies/${company_id}/delete-employee/${id}`,
+        `http://localhost:5000/api/employees/${company_id}/delete-employee/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -109,93 +138,98 @@ const EmployeesList = ({
     setEditingEmployee(null)
   }
 
-  const filteredEmployees = employees.filter((employee) =>
-    employee.full_name.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  const filteredEmployees = Array.isArray(employees)
+  ? employees.filter((employee) =>
+      employee.full_name?.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  : []
+
 
   return (
     <div className="list-container">
-      <ul className="employees-list">
-        {filteredEmployees.map((employee) => (
-          <li key={employee._id} className="employees-item">
-            {editingEmployee?._id === employee._id ? (
-              <form onSubmit={handleUpdate} className="edit-employee-form">
-                <input
-                  className="employees-form-inputs"
-                  type="text"
-                  name="full_name"
-                  defaultValue={employee.full_name}
-                />
-                <input
-                  className="employees-form-inputs"
-                  type="text"
-                  name="job"
-                  defaultValue={employee.job}
-                />
-                <input
-                  className="employees-form-inputs"
-                  type="number"
-                  name="salary"
-                  defaultValue={employee.salary}
-                />
-                <input
-                  className="employees-form-inputs"
-                  type="number"
-                  name="years_worked"
-                  defaultValue={employee.years_worked}
-                />
-                <select
-                  className="employees-form-inputs"
-                  name="state"
-                  defaultValue={employee.state}
-                >
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
-                <button className="save-edit-button" type="submit">
-                  Save
-                </button>
-                <button
-                  className="cancel-edit-button"
-                  type="button"
-                  onClick={handleCancelEdit}
-                >
-                  Cancel
-                </button>
-              </form>
-            ) : (
-              <>
-                <h3 className="list-title">{employee.full_name}</h3>
-                <p className="employee-info">
-                  <span className="list-span">Job:</span> {employee.job}
-                </p>
-                <p className="employee-info">
-                  <span className="list-span">Salary:</span> {employee.salary}
-                </p>
-                <p className="employee-info">
-                  <span className="list-span">Years Worked:</span>{" "}
-                  {employee.years_worked}
-                </p>
-                <p className="employee-info">
-                  <span className="list-span">State:</span> {employee.state}
-                </p>
-                <button
-                  className="edit-button"
-                  onClick={() => handleEdit(employee)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="delete-button"
-                  onClick={() => handleDelete(employee._id)}
-                >
-                  Delete
-                </button>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
+      {filteredEmployees.length === 0 ? (
+        <p>No employees found.</p>
+      ) : (
+        <ul className="employees-list">
+          {filteredEmployees.map((employee) => (
+            <li key={employee._id} className="employees-item">
+              {editingEmployee?._id === employee._id ? (
+                <form onSubmit={handleUpdate} className="edit-employee-form">
+                  <input
+                    className="employees-form-inputs"
+                    type="text"
+                    name="full_name"
+                    defaultValue={employee.full_name}
+                  />
+                  <input
+                    className="employees-form-inputs"
+                    type="text"
+                    name="job"
+                    defaultValue={employee.job}
+                  />
+                  <input
+                    className="employees-form-inputs"
+                    type="number"
+                    name="salary"
+                    defaultValue={employee.salary}
+                  />
+                  <input
+                    className="employees-form-inputs"
+                    type="number"
+                    name="years_worked"
+                    defaultValue={employee.years_worked}
+                  />
+                  <select
+                    className="employees-form-inputs"
+                    name="state"
+                    defaultValue={employee.state}
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                  <button className="save-edit-button" type="submit">
+                    Save
+                  </button>
+                  <button
+                    className="cancel-edit-button"
+                    type="button"
+                    onClick={handleCancelEdit}
+                  >
+                    Cancel
+                  </button>
+                </form>
+              ) : (
+                <>
+                  <h3 className="list-title">{employee.full_name}</h3>
+                  <p className="employee-info">
+                    <span className="list-span">Job:</span> {employee.job}
+                  </p>
+                  <p className="employee-info">
+                    <span className="list-span">Salary:</span> {employee.salary}
+                  </p>
+                  <p className="employee-info">
+                    <span className="list-span">Years Worked:</span>{" "}
+                    {employee.years_worked}
+                  </p>
+                  <p className="employee-info">
+                    <span className="list-span">State:</span> {employee.state}
+                  </p>
+                  {isAdmin && (
+                    <>
+                      <button className="edit-button" onClick={() => handleEdit(employee)}>
+                        Edit
+                      </button>
+                      <button className="delete-button" onClick={() => handleDelete(employee._id)}>
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }

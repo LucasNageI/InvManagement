@@ -1,4 +1,4 @@
 export const verifyBusinessKey = (key) => {
-  const keyRegex = /^[a-zA-Z0-9]{3}-[a-zA-Z0-9]{3}-[a-zA-Z0-9]{3}$/
+  const keyRegex = /^[0-9a-fA-F]{32}$/
   return keyRegex.test(key)
 }

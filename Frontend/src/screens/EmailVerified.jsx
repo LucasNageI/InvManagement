@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
 import "../styles/screen_styles/EmailVerified.css"
 
 const EmailVerified = () => {
+
   const [verified, setVerified] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
-  const location = useLocation()
+  const url = new URL(window.location.href);
+  const validationToken = url.searchParams.get('validation_token');
 
   useEffect(() => {
-    console.log(location.search)
-    const queryParams = new URLSearchParams(location.search)
-    const validationToken = queryParams.get("validation_token")
-    console.log(validationToken)
 
     if (validationToken) {
       fetch(`http://localhost:5000/api/auth/verify-email/${validationToken}`, {
@@ -22,7 +19,7 @@ const EmailVerified = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          if (data.success) {
+          if (data.ok) {
             setVerified(true)
             setErrorMessage("")
           } else {

@@ -17,6 +17,13 @@ function WaitingToVerifyEmail() {
         </Link>
         .
       </p>
+      <p className="waiting-to-verify-email-text">
+        If you already verified your email,{" "}
+        <Link className="waiting-to-verify-email-link" to="/login">
+          Log In
+        </Link>
+        {" "}to start using InvManagement.
+      </p>
     </div>
   )
 }

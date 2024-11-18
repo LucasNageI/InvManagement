@@ -1,23 +1,26 @@
-import {
-  hashPassword,
-  comparePasswords,
-  generateToken,
-  verifyEmailHelper,
-} from "../helpers/auth.js"
+import { hashPassword, comparePasswords, generateToken, verifyEmailHelper } from "../helpers/auth.js"
 import { transportEmail } from "../helpers/transportEmail.js"
 import ResponseBuilder from "../helpers/builders/responseBuilder.js"
-import {
-  emailVerification,
-  verifyString,
-  verifyMinLength,
-} from "../helpers/validations.js"
+import { emailVerification, verifyString, verifyMinLength, } from "../helpers/validations.js"
 import User from "../models/UserModel.js"
 import jwt from "jsonwebtoken"
 import ENVIRONMENT from "../config/environment.js"
 
 export const registerController = async (req, res) => {
+    const responseBuilder = new ResponseBuilder()
   try {
     const { username, email, password } = req.body
+
+    if (!username || !email || !password) {
+        return res.status(400).json(
+          responseBuilder
+            .setOk(false)
+            .setCode("MISSING_FIELDS")
+            .setMessage("All fields are required.")
+            .build()
+        );
+    }
+    
 
     const registerConfig = {
       username: {
@@ -64,24 +67,22 @@ export const registerController = async (req, res) => {
     }
 
     if (hayErrores) {
-      const response = new ResponseBuilder()
+        return res.status(400).json(responseBuilder
         .setOk(false)
-        .setStatus(400)
         .setData({ registerState: registerConfig })
         .setCode("VALIDATION_ERROR")
         .build()
-      return res.status(400).json(response)
+    )
     }
 
     const emailVerificationResult = await verifyEmailHelper(email)
     if (emailVerificationResult) {
-      const response = new ResponseBuilder()
+        return res.status(409).json(responseBuilder
         .setOk(false)
-        .setStatus(409)
         .setCode("EMAIL_ALREADY_REGISTERED")
         .setMessage("Email is already registered.")
         .build()
-      return res.status(409).json(response)
+    )
     }
 
     const hashedPassword = await hashPassword(password)
@@ -93,15 +94,15 @@ export const registerController = async (req, res) => {
     const redirectUrl = `${ENVIRONMENT.FRONTEND_URL}/email-verified?validation_token=${validationToken}`
 
     await transportEmail.sendMail({
-      subject: "Valida tu email",
+      subject: "Validate your email",
       to: normalizedEmail,
       html: `
           <!DOCTYPE html>
           <html>
           <body>
-            <h1>Valida tu mail</h1>
-            <p>Para validar tu mail, haz clic en el siguiente enlace:</p>
-            <p><a href="${redirectUrl}" style="color: blue text-decoration: underline">Valida tu email aquí</a></p>
+            <h1>Validate your email</h1>
+            <p>Click the link below to validate your email:</p>
+            <p><a href="${redirectUrl}" style="color: blue text-decoration: underline">Validate your email</a></p>
           </body>
           </html>
         `,
@@ -116,71 +117,59 @@ export const registerController = async (req, res) => {
 
     await newUser.save()
 
-    const response = new ResponseBuilder()
+    return res.status(201).json(responseBuilder
       .setOk(true)
-      .setStatus(201)
       .setCode("SUCCESS")
       .setData({
         message: "User registered successfully",
         user: { username, email },
       })
       .build()
+    )
 
-    return res.json(response)
   } catch (error) {
     console.error("Error during registration:", error)
 
-    const response = new ResponseBuilder()
+    return res.status(500).json(responseBuilder
       .setOk(false)
-      .setStatus(500)
       .setCode("INTERNAL_SERVER_ERROR")
       .setMessage("Internal server error")
       .setData({
         detail: error.message,
       })
       .build()
-
-    return res.status(500).json(response)
+    )
   }
 }
 
 export const loginController = async (req, res) => {
   const { email, password } = req.body
-  const response = new ResponseBuilder()
+  const responseBuilder = new ResponseBuilder()
 
   try {
     const user = await verifyEmailHelper(email)
     if (!user) {
-      return res
-        .status(400)
-        .json(
-          response
+      return res.status(400).json(responseBuilder
             .setOk(false)
-            .setStatus(400)
+            .setCode("USER_NOT_FOUND")
             .setMessage("User not found")
             .build()
         )
     }
     const isPasswordCorrect = await comparePasswords(password, user.password)
     if (!isPasswordCorrect) {
-      return res
-        .status(400)
-        .json(
-          response
+      return res.status(400).json(responseBuilder
             .setOk(false)
-            .setStatus(400)
+            .setCode("INVALID_CREDENTIALS")
             .setMessage("Invalid credentials")
             .build()
         )
     }
 
     if (!user.emailVerified) {
-      return res
-        .status(400)
-        .json(
-          response
+      return res.status(400).json(responseBuilder
             .setOk(false)
-            .setStatus(400)
+            .setCode("EMAIL_NOT_VERIFIED")
             .setMessage("Please verify your email before logging in")
             .build()
         )
@@ -188,10 +177,9 @@ export const loginController = async (req, res) => {
 
     const token = generateToken({ userId: user._id, email: user.email })
 
-    return res.status(200).json(
-      response
+    return res.status(200).json(responseBuilder
         .setOk(true)
-        .setStatus(200)
+        .setCode("SUCCESS")
         .setMessage("Login successful")
         .setData({
           token,
@@ -207,26 +195,23 @@ export const loginController = async (req, res) => {
     )
   } catch (error) {
     console.error(error)
-    return res
-      .status(500)
-      .json(
-        response.setOk(false).setStatus(500).setMessage("Server error").build()
+    return res.status(500).json(responseBuilder.setOk(false)
+        .setCode("SERVER_ERROR")
+        .setMessage("Server error")
+        .build()
       )
   }
 }
 
 export const resendVerificationEmailController = async (req, res) => {
   const { email } = req.body
-  const response = new ResponseBuilder()
+  const responseBuilder = new ResponseBuilder()
 
   try {
     if (!email) {
-      return res
-        .status(400)
-        .json(
-          response
+      return res.status(400).json(responseBuilder
             .setOk(false)
-            .setStatus(400)
+            .setCode("EMAIL_REQUIRED")
             .setMessage("Email is required")
             .build()
         )
@@ -236,24 +221,18 @@ export const resendVerificationEmailController = async (req, res) => {
     const user = await User.findOne({ email: normalizedEmail })
 
     if (!user) {
-      return res
-        .status(404)
-        .json(
-          response
+      return res.status(404).json(responseBuilder
             .setOk(false)
-            .setStatus(404)
+            .setCode("USER_NOT_FOUND")
             .setMessage("User not found")
             .build()
         )
     }
 
     if (user.emailVerified) {
-      return res
-        .status(400)
-        .json(
-          response
+      return res.status(400).json(responseBuilder
             .setOk(false)
-            .setStatus(400)
+            .setCode("EMAIL_ALREADY_VERIFIED")
             .setMessage("Email is already verified")
             .build()
         )
@@ -282,23 +261,17 @@ export const resendVerificationEmailController = async (req, res) => {
         `,
     })
 
-    return res
-      .status(200)
-      .json(
-        response
+    return res.status(200).json(responseBuilder
           .setOk(true)
-          .setStatus(200)
+          .setCode("VERIFICATION_EMAIL_RESENT")
           .setMessage("Verification email resent successfully")
           .build()
       )
   } catch (error) {
     console.error("Error in resendVerificationEmailController:", error.message)
-    return res
-      .status(500)
-      .json(
-        response
+    return res.status(500).json(responseBuilder
           .setOk(false)
-          .setStatus(500)
+          .setCode("INTERNAL_SERVER_ERROR")
           .setMessage("Internal server error")
           .build()
       )
@@ -307,16 +280,13 @@ export const resendVerificationEmailController = async (req, res) => {
 
 export const verifyEmailController = async (req, res) => {
   const { validation_token } = req.params
-  const response = new ResponseBuilder()
+  const responseBuilder = new ResponseBuilder()
 
   try {
     if (!validation_token) {
-      return res
-        .status(400)
-        .json(
-          response
+      return res.status(400).json(responseBuilder
             .setOk(false)
-            .setStatus(400)
+            .setCode("VALIDATION_TOKEN_REQUIRED")
             .setMessage("Validation token is required")
             .build()
         )
@@ -327,24 +297,18 @@ export const verifyEmailController = async (req, res) => {
     const user = await User.findOne({ email: decoded.email })
 
     if (!user) {
-      return res
-        .status(404)
-        .json(
-          response
+      return res.status(404).json(responseBuilder
             .setOk(false)
-            .setStatus(404)
+            .setCode("USER_NOT_FOUND")
             .setMessage("User not found")
             .build()
         )
     }
 
     if (user.emailVerified) {
-      return res
-        .status(400)
-        .json(
-          response
+      return res.status(400).json(responseBuilder
             .setOk(false)
-            .setStatus(400)
+            .setCode("EMAIL_ALREADY_VERIFIED")
             .setMessage("Email is already verified")
             .build()
         )
@@ -352,34 +316,27 @@ export const verifyEmailController = async (req, res) => {
     user.emailVerified = true
     await user.save()
 
-    return res
-      .status(200)
-      .json(
-        response
+    return res.status(200).json(responseBuilder
           .setOk(true)
-          .setStatus(200)
+          .setCode("EMAIL_VERIFIED")
           .setMessage("Email verified successfully")
           .build()
       )
   } catch (error) {
+
     console.error("Error in verifyEmailController:", error.message)
+
     if (error.name === "JsonWebTokenError") {
-      return res
-        .status(401)
-        .json(
-          response
+      return res.status(401).json(responseBuilder
             .setOk(false)
-            .setStatus(401)
+            .setCode("INVALID_TOKEN")
             .setMessage("Invalid or expired token")
             .build()
         )
     }
-    return res
-      .status(500)
-      .json(
-        response
+    return res.status(500).json(responseBuilder
           .setOk(false)
-          .setStatus(500)
+          .setCode("INTERNAL_SERVER_ERROR")
           .setMessage("Internal server error")
           .build()
       )
@@ -388,16 +345,13 @@ export const verifyEmailController = async (req, res) => {
 
 export const sendRecoveryEmail = async (req, res) => {
   const { email } = req.body
-  const response = new ResponseBuilder()
+  const responseBuilder = new ResponseBuilder()
 
   try {
     if (!email) {
-      return res
-        .status(400)
-        .json(
-          response
+      return res.status(400).json(responseBuilder
             .setOk(false)
-            .setStatus(400)
+            .setCode("EMAIL_REQUIRED")
             .setMessage("Email is required")
             .build()
         )
@@ -407,12 +361,9 @@ export const sendRecoveryEmail = async (req, res) => {
     const user = await User.findOne({ email: normalizedEmail })
 
     if (!user) {
-      return res
-        .status(404)
-        .json(
-          response
+      return res.status(404).json(responseBuilder
             .setOk(false)
-            .setStatus(404)
+            .setCode("USER_NOT_FOUND")
             .setMessage("User not found")
             .build()
         )
@@ -441,28 +392,28 @@ export const sendRecoveryEmail = async (req, res) => {
         `,
     })
 
-    return res
-      .status(200)
-      .json(
-        response
+    return res.status(200).json(responseBuilder
           .setOk(true)
-          .setStatus(200)
+          .setCode("EMAIL_SENT")
           .setMessage("Password recovery email sent successfully")
           .build()
       )
   } catch (error) {
+
     console.error("Error in sendRecoveryEmail:", error.message)
-    return res
-      .status(500)
-      .json(
-        response.setOk(false).setStatus(500).setMessage("Server error").build()
+
+    return res.status(500).json(responseBuilder
+        .setOk(false)
+        .setCode("SERVER_ERROR")
+        .setMessage("Server error")
+        .build()
       )
   }
 }
 
 export const resetPasswordController = async (req, res) => {
   const { token, password } = req.body
-  const response = new ResponseBuilder()
+  const responseBuilder = new ResponseBuilder()
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
@@ -470,12 +421,9 @@ export const resetPasswordController = async (req, res) => {
     const user = await User.findOne({ email: decoded.email })
 
     if (!user) {
-      return res
-        .status(404)
-        .json(
-          response
+      return res.status(404).json(responseBuilder
             .setOk(false)
-            .setStatus(404)
+            .setCode("USER_NOT_FOUND")
             .setMessage("User not found")
             .build()
         )
@@ -486,35 +434,26 @@ export const resetPasswordController = async (req, res) => {
     user.password = hashedPassword
     await user.save()
 
-    return res
-      .status(200)
-      .json(
-        response
+    return res.status(200).json(responseBuilder
           .setOk(true)
-          .setStatus(200)
+          .setCode("PASSWORD_UPDATED")
           .setMessage("Password updated successfully")
           .build()
       )
   } catch (error) {
     console.error("Error in resetPasswordController:", error.message)
     if (error.name === "JsonWebTokenError") {
-      return res
-        .status(401)
-        .json(
-          response
+      return res.status(401).json(responseBuilder
             .setOk(false)
-            .setStatus(401)
             .setMessage("Invalid or expired token")
+            .setCode("INVALID_TOKEN")
             .build()
         )
     }
-    return res
-      .status(500)
-      .json(
-        response
+    return res.status(500).json(responseBuilder
           .setOk(false)
-          .setStatus(500)
           .setMessage("Error resetting password")
+          .setCode("SERVER_ERROR")
           .build()
       )
   }

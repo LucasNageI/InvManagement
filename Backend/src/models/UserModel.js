@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   emailVerified: { type: Boolean, default: false },
   verificationToken: { type: String },
+  companies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }]
 })
 
 const User = mongoose.models.User || mongoose.model("User", userSchema)

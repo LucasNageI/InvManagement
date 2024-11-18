@@ -1,20 +1,22 @@
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
 import "../../styles/component_styles/Company/Aside.css"
+import { Link, useNavigate } from "react-router-dom"
 
 const Aside = () => {
-  const [showModal, setShowModal] = useState(false)
+  const [showLogoutScreen, setShowLogoutScreen] = useState(false)
+  const navigate = useNavigate()
 
   const handleLogout = () => {
-    window.location.href = "/login"
+    navigate("/landing")
+    sessionStorage.removeItem("auth_token")
   }
 
   const handleLogOutClick = () => {
-    setShowModal(true)
+    setShowLogoutScreen(true)
   }
 
   const handleCancel = () => {
-    setShowModal(false)
+    setShowLogoutScreen(false)
   }
 
   return (
@@ -56,7 +58,7 @@ const Aside = () => {
         </ul>
       </nav>
 
-      {showModal && (
+      {showLogoutScreen && (
         <div className="modal-overlay">
           <div className="modal">
             <p>Are you sure you want to log out?</p>

@@ -11,7 +11,9 @@ const InventoryList = ({
   setEditingItem,
   setErrorClass,
   setErrorMessage,
+  isAdmin,
 }) => {
+
   const handleEdit = (item) => {
     setEditingItem(item)
     setErrorClass("no-error")
@@ -19,7 +21,6 @@ const InventoryList = ({
   }
 
   const handleUpdate = async (e) => {
-    e.preventDefault()
     const updatedItem = {
       product_name: e.target.product_name.value,
       price: e.target.price.value,
@@ -40,7 +41,7 @@ const InventoryList = ({
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/companies/${company_id}/update-inventory/${editingItem._id}`,
+        `http://localhost:5000/api/inventory/${company_id}/update-inventory/${editingItem._id}`,
         {
           method: "PUT",
           headers: {
@@ -81,7 +82,7 @@ const InventoryList = ({
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/companies/${company_id}/delete-inventory-item/${id}`,
+        `http://localhost:5000/api/inventory/${company_id}/delete-inventory-item/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -108,92 +109,97 @@ const InventoryList = ({
     setEditingItem(null)
   }
 
-  const filteredItems = inventoryItems.filter((item) =>
-    item.product_name.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  const filteredItems = Array.isArray(inventoryItems)
+  ? inventoryItems.filter((item) =>
+      item.product_name && item.product_name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  : []
+
 
   return (
     <div className="list-container">
-      <ul className="inventory-list">
-        {filteredItems.map((item) => (
-          <li key={item._id} className="inventory-item">
-            {editingItem?._id === item._id ? (
-              <form onSubmit={handleUpdate} className="edit-inventory-form">
-                <input
-                  className="inventory-form-inputs"
-                  type="text"
-                  name="product_name"
-                  defaultValue={item.product_name}
-                />
-                <input
-                  className="inventory-form-inputs"
-                  type="number"
-                  name="price"
-                  defaultValue={item.price}
-                />
-                <input
-                  className="inventory-form-inputs"
-                  type="number"
-                  name="stock"
-                  defaultValue={item.stock}
-                />
-                <input
-                  className="inventory-form-inputs"
-                  type="text"
-                  name="category"
-                  defaultValue={item.category}
-                />
-                <select
-                  className="inventory-form-inputs"
-                  name="state"
-                  defaultValue={item.state}
-                >
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
-                <button className="save-edit-button" type="submit">
-                  Save
-                </button>
-                <button
-                  className="cancel-edit-button"
-                  type="button"
-                  onClick={handleCancelEdit}
-                >
-                  Cancel
-                </button>
-              </form>
-            ) : (
-              <>
-                <h3 className="list-title">{item.product_name}</h3>
-                <p className="inventory-info">
-                  <span className="list-span">Price:</span> {item.price}
-                </p>
-                <p className="inventory-info">
-                  <span className="list-span">Stock:</span> {item.stock}
-                </p>
-                <p className="inventory-info">
-                  <span className="list-span">Category:</span> {item.category}
-                </p>
-                <p className="inventory-info">
-                  <span className="list-span">State:</span> {item.state}
-                </p>
-                <button
-                  className="edit-button"
-                  onClick={() => handleEdit(item)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="delete-button"
-                  onClick={() => handleDelete(item._id)}
-                >
-                  Delete
-                </button>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
+      {filteredItems.length === 0 ? (
+        <p>No items found in the inventory.</p>
+      ) : (
+        <ul className="inventory-list">
+          {filteredItems.map((item) => (
+            <li key={item._id} className="inventory-item">
+              {editingItem?._id === item._id ? (
+                <form onSubmit={handleUpdate} className="edit-inventory-form">
+                  <input
+                    className="inventory-form-inputs"
+                    type="text"
+                    name="product_name"
+                    defaultValue={item.product_name}
+                  />
+                  <input
+                    className="inventory-form-inputs"
+                    type="number"
+                    name="price"
+                    defaultValue={item.price}
+                  />
+                  <input
+                    className="inventory-form-inputs"
+                    type="number"
+                    name="stock"
+                    defaultValue={item.stock}
+                  />
+                  <input
+                    className="inventory-form-inputs"
+                    type="text"
+                    name="category"
+                    defaultValue={item.category}
+                  />
+                  <select
+                    className="inventory-form-inputs"
+                    name="state"
+                    defaultValue={item.state}
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                  <button className="save-edit-button" type="submit">
+                    Save
+                  </button>
+                  <button
+                    className="cancel-edit-button"
+                    type="button"
+                    onClick={handleCancelEdit}
+                  >
+                    Cancel
+                  </button>
+                </form>
+              ) : (
+                <>
+                  <h3 className="list-title">{item.product_name}</h3>
+                  <p className="inventory-info">
+                    <span className="list-span">Price:</span> {item.price}
+                  </p>
+                  <p className="inventory-info">
+                    <span className="list-span">Stock:</span> {item.stock}
+                  </p>
+                  <p className="inventory-info">
+                    <span className="list-span">Category:</span> {item.category}
+                  </p>
+                  <p className="inventory-info">
+                    <span className="list-span">State:</span> {item.state}
+                  </p>
+                  {isAdmin && (
+                    <>
+                      <button className="edit-button" onClick={() => handleEdit(item)}>
+                        Edit
+                      </button>
+                      <button className="delete-button" onClick={() => handleDelete(item._id)}>
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }

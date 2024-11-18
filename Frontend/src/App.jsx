@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { Routes, Route, Navigate } from "react-router-dom"
 
 import {
@@ -26,10 +26,7 @@ const App = () => {
       <Route path="/landing" element={<Landing />} />
 
       <Route path="/register" element={<Register />} />
-      <Route
-        path="/waiting-to-verify-email"
-        element={<WaitingToVerifyEmail />}
-      />
+      <Route path="/waiting-to-verify-email" element={<WaitingToVerifyEmail />}/>
       <Route path="/resend-email" element={<ResendEmail />} />
       <Route path="/email-verified" element={<EmailVerified />} />
 
@@ -38,44 +35,11 @@ const App = () => {
       <Route path="/recovery-password" element={<RecoveryPassword />} />
       <Route path="/set-new-password" element={<SetNewPassword />} />
 
-      {/*rutas privadas*/}
+      <Route path="/home" element={ <PrivateRoute> <Home /> </PrivateRoute> }/>
+      <Route path="/add-company" element={<PrivateRoute><AddCompany /></PrivateRoute>} />
+      <Route path="/join-company" element={<PrivateRoute><JoinCompany /></PrivateRoute>} />
+      <Route path="/company/:company_id/*" element={<PrivateRoute><Company /></PrivateRoute>} />
 
-      <Route
-        path="/home"
-        element={
-          <PrivateRoute>
-            {" "}
-            <Home />{" "}
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/add-company"
-        element={
-          <PrivateRoute>
-            {" "}
-            <AddCompany />{" "}
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/join-company"
-        element={
-          <PrivateRoute>
-            {" "}
-            <JoinCompany />{" "}
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/company/:company_id/*"
-        element={
-          <PrivateRoute>
-            <Company />
-          </PrivateRoute>
-        }
-      />
 
       <Route path="*" element={<NotFound />} />
     </Routes>

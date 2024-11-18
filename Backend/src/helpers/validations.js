@@ -1,10 +1,10 @@
 export const emailVerification = (email) => {
-  const emailRegex = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/
-  if (!emailRegex.test(email)) {
-    return "Invalid email format"
+    const emailRegex = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/
+    if (!emailRegex.test(email)) {
+      return "Invalid email format"
+    }
+    return null
   }
-  return null
-}
 
 export const verifyString = (field_name, field_value) => {
   if (typeof field_value !== "string" || field_value.trim() === "") {

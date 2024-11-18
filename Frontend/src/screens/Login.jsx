@@ -83,7 +83,7 @@ const Login = () => {
             </label>
             <input
               className="form-inputs"
-              autoComplete="email"
+              autoComplete="off"
               type="email"
               name="email"
               aria-label="Email"
@@ -95,7 +95,7 @@ const Login = () => {
             </label>
             <input
               className="form-inputs"
-              autoComplete="current-password"
+              autoComplete="off"
               type="password"
               name="password"
               aria-label="Password"

@@ -6,11 +6,7 @@ const Landing = () => {
   return (
     <main className="landing-container">
       <div className="landing-title-and-logo">
-        <img
-          className="landing-logo"
-          src="/open-box-white.svg"
-          alt="InvManagement Logo"
-        />
+        <img className="landing-logo" src="/open-box-white.svg" alt="InvManagement Logo" />
         <h1 className="landing-title">InvManagement</h1>
       </div>
       <div>
