@@ -243,11 +243,7 @@ import { hashPassword, comparePasswords, generateToken } from "../helpers/auth.j
           )
       }
   
-      const validationToken = jwt.sign(
-        { email: normalizedEmail },
-        process.env.JWT_SECRET,
-        { expiresIn: "1d" }
-      )
+      const validationToken = generateToken({ email: normalizedEmail })
   
       await UserRepository.updateUser(user._id, {
         verificationToken: validationToken,
@@ -373,11 +369,7 @@ export const sendRecoveryEmail = async (req, res) => {
           )
       }
   
-      const resetToken = jwt.sign(
-        { email: normalizedEmail },
-        process.env.JWT_SECRET,
-        { expiresIn: "1h" }
-      )
+      const resetToken = generateToken({ email: normalizedEmail })
   
       await UserRepository.updateUser(user._id, { resetPasswordToken: resetToken })
   
@@ -414,6 +406,15 @@ export const sendRecoveryEmail = async (req, res) => {
   export const resetPasswordController = async (req, res) => {
     const { token, password } = req.body
     const responseBuilder = new ResponseBuilder()
+
+    if (!token || !password) {
+        return res.status(400).json(responseBuilder
+              .setOk(false)
+              .setCode("TOKEN_AND_PASSWORD_REQUIRED")
+              .setMessage("Token and password are required")
+              .build()
+          )
+      }
   
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET)
