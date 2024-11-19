@@ -8,6 +8,7 @@
 }
 
 .company-title {
+  word-break: break-all;
   font-weight: 600;
   font-size: 20px;
 }

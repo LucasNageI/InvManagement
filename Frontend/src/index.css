@@ -77,7 +77,7 @@ p {
 .form-labels {
   color: #66676b;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .no-error {
