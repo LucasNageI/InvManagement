@@ -1,23 +1,19 @@
 import React from "react"
 import { isPositiveNumber, usernameVerification } from "../../utils"
+import getAuthToken from "../../utils/getAuthToken"
 
 const InventoryList = ({
   inventoryItems,
   searchQuery,
   setInventoryItems,
-  authToken,
   company_id,
   editingItem,
   setEditingItem,
-  setErrorClass,
-  setErrorMessage,
   isAdmin,
 }) => {
 
   const handleEdit = (item) => {
     setEditingItem(item)
-    setErrorClass("no-error")
-    setErrorMessage("")
   }
 
   const handleUpdate = async (e) => {
@@ -34,8 +30,6 @@ const InventoryList = ({
       !isPositiveNumber(updatedItem.price) ||
       !isPositiveNumber(updatedItem.stock)
     ) {
-      setErrorClass("form-error")
-      setErrorMessage("Invalid inputs. Please check the fields.")
       return
     }
 
@@ -44,10 +38,7 @@ const InventoryList = ({
         `http://localhost:5000/api/inventory/${company_id}/update-inventory/${editingItem._id}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
           body: JSON.stringify(updatedItem),
         }
       )
@@ -65,12 +56,8 @@ const InventoryList = ({
       )
 
       setEditingItem(null)
-      setErrorClass("no-error")
-      setErrorMessage("")
     } catch (error) {
       console.error("Error updating inventory item:", error)
-      setErrorClass("form-error")
-      setErrorMessage("Failed to update inventory item. Try again.")
     }
   }
 
@@ -85,9 +72,7 @@ const InventoryList = ({
         `http://localhost:5000/api/inventory/${company_id}/delete-inventory-item/${id}`,
         {
           method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
         }
       )
 
@@ -100,8 +85,6 @@ const InventoryList = ({
       )
     } catch (error) {
       console.error("Error deleting inventory item:", error)
-      setErrorClass("form-error")
-      setErrorMessage("Failed to delete the inventory item. Try again.")
     }
   }
 

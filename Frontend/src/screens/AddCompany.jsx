@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { usernameVerification, passwordVerification } from "../utils/index.js"
 import "../styles/screen_styles/AddCompany.css"
+import getAuthToken from "../utils/getAuthToken.js"
 
 const AddCompany = () => {
   const [errorMessage, setErrorMessage] = useState("")
@@ -17,10 +18,7 @@ const AddCompany = () => {
         "http://localhost:5000/api/companies/get-user-profile",
         {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
         }
       )
 
@@ -68,10 +66,7 @@ const AddCompany = () => {
         "http://localhost:5000/api/companies/add-company",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
           body: JSON.stringify({
             password: password,
             businessName: company_name,

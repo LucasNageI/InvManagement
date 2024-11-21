@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import "../../styles/component_styles/Company/Dashboard.css"
 import { useParams } from "react-router-dom"
+import getAuthToken from "../../utils/getAuthToken"
 
 const Dashboard = () => {
   const [inventoryData, setInventoryData] = useState({
@@ -14,7 +15,6 @@ const Dashboard = () => {
     totalSalaries: 0,
   })
 
-  const authToken = sessionStorage.getItem("auth_token")
   const { company_id } = useParams()
 
   const fetchInventoryData = async () => {
@@ -23,9 +23,7 @@ const Dashboard = () => {
         `http://localhost:5000/api/inventory/${company_id}/get-inventory`,
         {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
         }
       )
 
@@ -59,9 +57,7 @@ const Dashboard = () => {
         `http://localhost:5000/api/employees/${company_id}/get-employees`,
         {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
         }
       )
 

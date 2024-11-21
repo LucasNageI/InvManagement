@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import "../../styles/component_styles/Company/Profile.css"
 import { useParams } from "react-router-dom"
+import getAuthToken from "../../utils/getAuthToken"
 
 const Profile = () => {
   const [companyData, setCompanyData] = useState({
@@ -11,16 +12,13 @@ const Profile = () => {
 
   const { company_id } = useParams()
 
-  const authToken = sessionStorage.getItem("auth_token")
   const fetchCompanyData = async () => {
     try {
       const response = await fetch(
         `http://localhost:5000/api/companies/${company_id}`,
         {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
         }
       )
 

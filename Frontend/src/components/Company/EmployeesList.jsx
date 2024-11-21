@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import { usernameVerification, isPositiveNumber } from "../../utils"
+import getAuthToken from "../../utils/getAuthToken"
 
 const EmployeesList = ({
   employees,
@@ -9,8 +10,6 @@ const EmployeesList = ({
   company_id,
   editingEmployee,
   setEditingEmployee,
-  setErrorClass,
-  setErrorMessage,
   isAdmin,
 }) => {
   useEffect(() => {
@@ -20,9 +19,7 @@ const EmployeesList = ({
           `http://localhost:5000/api/employees/${company_id}/get-employees`,
           {
             method: "GET",
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
+            headers: getAuthToken(),
           }
         )
   
@@ -40,12 +37,10 @@ const EmployeesList = ({
     }
   
     fetchEmployees()
-  }, [company_id, authToken, setEmployees, setErrorClass, setErrorMessage])  
+ }, [company_id, authToken, setEmployees])  
 
   const handleEdit = (employee) => {
     setEditingEmployee(employee)
-    setErrorClass("no-error")
-    setErrorMessage("")
   }
 
   const handleUpdate = async (e) => {
@@ -63,8 +58,6 @@ const EmployeesList = ({
       !isPositiveNumber(updatedEmployee.salary) ||
       !isPositiveNumber(updatedEmployee.years_worked)
     ) {
-      setErrorClass("form-error")
-      setErrorMessage("Invalid inputs. Please check the fields.")
       return
     }
 
@@ -73,10 +66,7 @@ const EmployeesList = ({
         `http://localhost:5000/api/employees/${company_id}/update-employee/${editingEmployee._id}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
           body: JSON.stringify(updatedEmployee),
         }
       )
@@ -94,12 +84,8 @@ const EmployeesList = ({
       )
 
       setEditingEmployee(null)
-      setErrorClass("no-error")
-      setErrorMessage("")
     } catch (error) {
       console.error("Error updating employee:", error)
-      setErrorClass("form-error")
-      setErrorMessage("Failed to update employee. Try again.")
     }
   }
 
@@ -114,9 +100,7 @@ const EmployeesList = ({
         `http://localhost:5000/api/employees/${company_id}/delete-employee/${id}`,
         {
           method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
         }
       )
 
@@ -129,8 +113,6 @@ const EmployeesList = ({
       )
     } catch (error) {
       console.error("Error deleting employee:", error)
-      setErrorClass("form-error")
-      setErrorMessage("Failed to delete the employee. Try again.")
     }
   }
 

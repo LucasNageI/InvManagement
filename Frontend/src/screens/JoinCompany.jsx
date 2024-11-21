@@ -7,7 +7,6 @@ const JoinCompany = () => {
   const [errorMessage, setErrorMessage] = useState("")
   const [errorClass, setErrorClass] = useState("no-error")
   const navigate = useNavigate()
-  const jwtToken = sessionStorage.getItem("auth_token")
   const handleSubmit = async (event) => {
     event.preventDefault()
     const business_key = event.target["business_key"].value
@@ -22,10 +21,7 @@ const JoinCompany = () => {
           "http://localhost:5000/api/companies/verify",
           {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${jwtToken}`,
-            },
+            headers: getAuthToken(),
             body: JSON.stringify({ business_key }),
           }
         )

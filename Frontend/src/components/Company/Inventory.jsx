@@ -3,6 +3,7 @@ import "../../styles/component_styles/Company/Inventory.css"
 import { isPositiveNumber, usernameVerification } from "../../utils"
 import { useParams } from "react-router-dom"
 import InventoryList from "./InventoryList"
+import getAuthToken from "../../utils/getAuthToken"
 
 const Inventory = () => {
   const [searchQuery, setSearchQuery] = useState("")
@@ -20,9 +21,7 @@ const Inventory = () => {
         `http://localhost:5000/api/inventory/${company_id}/get-inventory`,
         {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
         }
       )
 
@@ -36,13 +35,9 @@ const Inventory = () => {
         setInventoryItems(result.data)
       } else {
         console.error("Data is not an array:", result)
-        setErrorClass("form-error")
-        setErrorMessage("Unexpected data format.")
       }
     } catch (error) {
       console.error("Error fetching inventory items:", error)
-      setErrorClass("form-error")
-      setErrorMessage("Failed to fetch inventory items. Please try again.")
     }
   }
   const checkIfUserIsAdmin = async () => {
@@ -51,10 +46,7 @@ const Inventory = () => {
         `http://localhost:5000/api/companies/${company_id}`,
         {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
         }
       )
 
@@ -66,10 +58,7 @@ const Inventory = () => {
 
       const userResponse = await fetch("http://localhost:5000/api/companies/get-user-profile", {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: getAuthToken(),
       })
 
       if (!userResponse.ok) {
@@ -103,8 +92,6 @@ const Inventory = () => {
         !isPositiveNumber(price) ||
         !isPositiveNumber(stock)
       ) {
-      setErrorClass("form-error")
-      setErrorMessage("Invalid inputs. Please check the fields.")
       return
     }
   
@@ -122,10 +109,7 @@ const Inventory = () => {
         `http://localhost:5000/api/inventory/${company_id}/inventory`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
           body: JSON.stringify(newItem),
         }
       )
@@ -138,13 +122,9 @@ const Inventory = () => {
   
       setInventoryItems((prevItems) => [...prevItems, savedItem.data])
   
-      setErrorClass("no-error")
-      setErrorMessage("")
       e.target.reset()
     } catch (error) {
       console.error("Error saving inventory item:", error)
-      setErrorClass("form-error")
-      setErrorMessage("Failed to save the inventory item. Try again.")
     }
   }  
 
@@ -164,12 +144,9 @@ const Inventory = () => {
         inventoryItems={inventoryItems}
         searchQuery={searchQuery}
         setInventoryItems={setInventoryItems}
-        authToken={authToken}
         company_id={company_id}
         editingItem={editingItem}
         setEditingItem={setEditingItem}
-        setErrorClass={setErrorClass}
-        setErrorMessage={setErrorMessage}
         isAdmin={isAdmin}
       />
 

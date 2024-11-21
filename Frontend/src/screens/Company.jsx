@@ -10,6 +10,7 @@ import {
 import { useParams, Navigate } from "react-router-dom"
 import "../styles/screen_styles/Company.css"
 import { Route, Routes } from "react-router-dom"
+import getAuthToken from "../utils/getAuthToken.js"
 
 const Company = () => {
   const { company_id } = useParams()
@@ -32,10 +33,7 @@ const Company = () => {
           `http://localhost:5000/api/companies/${company_id}`,
           {
             method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${authToken}`,
-            },
+            headers: getAuthToken(),
           }
         )
 
@@ -52,10 +50,7 @@ const Company = () => {
           "http://localhost:5000/api/companies/get-user-profile",
           {
             method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${authToken}`,
-            },
+            headers: getAuthToken(),
           }
         )
 

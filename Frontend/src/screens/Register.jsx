@@ -9,12 +9,10 @@ import { Link, useNavigate } from "react-router-dom"
 const Register = () => {
   const [errorMessage, setErrorMessage] = useState("")
   const [errorClass, setErrorClass] = useState(false)
-  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    setLoading(true)
 
     const username = event.target.username.value.trim()
     const email = event.target.email.value.trim()
@@ -65,24 +63,21 @@ const Register = () => {
         setErrorMessage("")
         event.target.reset()
         navigate("/waiting-to-verify-email")
-        setLoading(false)
+
       } else if (response.status === 409) {
         const errorData = await response.json()
         setErrorMessage(errorData.data?.detail || "Email already exists")
-        setLoading(false)
         setErrorClass("form-error")
         setTimeout(() => navigate("/login"), 3000)
       } else {
         const errorData = await response.json()
         setErrorMessage(errorData.message || "Registration failed")
         setErrorClass("form-error")
-        setLoading(false)
       }
     } catch (error) {
       console.error("Fetch error:", error)
       setErrorMessage("Error connecting to the server")
       setErrorClass("form-error")
-      setLoading(false)
     }
   }
 

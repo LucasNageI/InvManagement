@@ -3,6 +3,7 @@ import Header from "../components/Home/Header.jsx"
 import Companies from "../components/Home/Companies.jsx"
 import { Link, useNavigate } from "react-router-dom"
 import "../styles/screen_styles/Home.css"
+import getAuthToken from "../utils/getAuthToken.js"
 
 const Home = () => {
   const [companies, setCompanies] = useState([])
@@ -29,16 +30,12 @@ const navigate = useNavigate()
     }
 
     try {
-      const authToken = sessionStorage.getItem("auth_token")
 
       const response = await fetch(
         "http://localhost:5000/api/companies/get-companies",
         {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
         }
       )
 

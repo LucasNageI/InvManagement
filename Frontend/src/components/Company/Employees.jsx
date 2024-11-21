@@ -3,11 +3,10 @@ import "../../styles/component_styles/Company/Employees.css"
 import { isPositiveNumber, usernameVerification } from "../../utils"
 import { useParams } from "react-router-dom"
 import EmployeesList from "./EmployeesList"
+import getAuthToken from "../../utils/getAuthToken"
 
 const Employees = () => {
   const [searchQuery, setSearchQuery] = useState("")
-  const [errorClass, setErrorClass] = useState("no-error")
-  const [errorMessage, setErrorMessage] = useState("")
   const [employees, setEmployees] = useState([])
   const [editingEmployee, setEditingEmployee] = useState(null)
   const [isAdmin, setIsAdmin] = useState(false)
@@ -20,9 +19,7 @@ const Employees = () => {
         `http://localhost:5000/api/employees/${company_id}/get-employees`,
         {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
         }
       )
   
@@ -34,8 +31,6 @@ const Employees = () => {
       setEmployees(data.data)
     } catch (error) {
       console.error("Error fetching employees:", error)
-      setErrorClass("form-error")
-      setErrorMessage("Failed to load employees. Try again.")
     }
   }
   
@@ -46,10 +41,7 @@ const Employees = () => {
         `http://localhost:5000/api/companies/${company_id}`,
         {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
         }
       )
   
@@ -61,10 +53,7 @@ const Employees = () => {
   
       const userResponse = await fetch("http://localhost:5000/api/companies/get-user-profile", {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: getAuthToken()
       })
   
       if (!userResponse.ok) {
@@ -102,8 +91,6 @@ const Employees = () => {
       !isPositiveNumber(salary) ||
       !isPositiveNumber(years_worked)
     ) {
-      setErrorClass("form-error")
-      setErrorMessage("Invalid inputs. Please check the fields.")
       return
     }
   
@@ -121,10 +108,7 @@ const Employees = () => {
         `http://localhost:5000/api/employees/${company_id}/employees`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: getAuthToken(),
           body: JSON.stringify(newEmployee),
         }
       )
@@ -138,14 +122,9 @@ const Employees = () => {
       if (savedEmployee && savedEmployee.data) {
         setEmployees((prevEmployees) => [...prevEmployees, savedEmployee.data])
       }
-  
-      setErrorClass("no-error")
-      setErrorMessage("")
       e.target.reset()
     } catch (error) {
       console.error("Error saving employee:", error)
-      setErrorClass("form-error")
-      setErrorMessage("Failed to save the employee. Try again.")
     }
   }
 
@@ -169,8 +148,7 @@ const Employees = () => {
         company_id={company_id}
         editingEmployee={editingEmployee}
         setEditingEmployee={setEditingEmployee}
-        setErrorClass={setErrorClass}
-        setErrorMessage={setErrorMessage}
+
         isAdmin={isAdmin}
       />
 
