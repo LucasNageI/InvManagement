@@ -20,7 +20,7 @@ const Dashboard = () => {
   const fetchInventoryData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/inventory/${company_id}/get-inventory`,
+        `${import.meta.env.VITE_APP_URL}5000/api/inventory/${company_id}/get-inventory`,
         {
           method: "GET",
           headers: getAuthToken(),
@@ -54,7 +54,7 @@ const Dashboard = () => {
   const fetchEmployeesData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/employees/${company_id}/get-employees`,
+        `${import.meta.env.VITE_APP_URL}/api/employees/${company_id}/get-employees`,
         {
           method: "GET",
           headers: getAuthToken(),

@@ -18,7 +18,7 @@ const Inventory = () => {
   const fetchAllInventoryItems = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/inventory/${company_id}/get-inventory`,
+        `${import.meta.env.VITE_APP_URL}/api/inventory/${company_id}/get-inventory`,
         {
           method: "GET",
           headers: getAuthToken(),
@@ -43,7 +43,7 @@ const Inventory = () => {
   const checkIfUserIsAdmin = async () => {
     try {
       const companyResponse = await fetch(
-        `http://localhost:5000/api/companies/${company_id}`,
+        `${import.meta.env.VITE_APP_URL}/api/companies/${company_id}`,
         {
           method: "GET",
           headers: getAuthToken(),
@@ -56,7 +56,7 @@ const Inventory = () => {
 
       const companyData = await companyResponse.json()
 
-      const userResponse = await fetch("http://localhost:5000/api/companies/get-user-profile", {
+      const userResponse = await fetch(`${import.meta.env.VITE_APP_URL}/api/companies/get-user-profile`, {
         method: "GET",
         headers: getAuthToken(),
       })
@@ -106,7 +106,7 @@ const Inventory = () => {
   
     try {
       const response = await fetch(
-        `http://localhost:5000/api/inventory/${company_id}/inventory`,
+        `${import.meta.env.VITE_APP_URL}/api/inventory/${company_id}/inventory`,
         {
           method: "POST",
           headers: getAuthToken(),

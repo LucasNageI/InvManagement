@@ -32,7 +32,7 @@ const navigate = useNavigate()
     try {
 
       const response = await fetch(
-        "http://localhost:5000/api/companies/get-companies",
+        `${import.meta.env.VITE_APP_URL}/api/companies/get-companies`,
         {
           method: "GET",
           headers: getAuthToken(),

@@ -15,7 +15,7 @@ const AddCompany = () => {
   const getUserData = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/companies/get-user-profile",
+        `${import.meta.env.VITE_APP_URL}/api/companies/get-user-profile`,
         {
           method: "GET",
           headers: getAuthToken(),
@@ -63,7 +63,7 @@ const AddCompany = () => {
       }
 
       const response = await fetch(
-        "http://localhost:5000/api/companies/add-company",
+        `${import.meta.env.VITE_APP_URL}/api/companies/add-company`,
         {
           method: "POST",
           headers: getAuthToken(),

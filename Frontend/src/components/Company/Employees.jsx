@@ -16,7 +16,7 @@ const Employees = () => {
   const fetchAllEmployees = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/employees/${company_id}/get-employees`,
+        `${import.meta.env.VITE_APP_URL}/api/employees/${company_id}/get-employees`,
         {
           method: "GET",
           headers: getAuthToken(),
@@ -38,7 +38,7 @@ const Employees = () => {
   const checkIfUserIsAdmin = async () => {
     try {
       const companyResponse = await fetch(
-        `http://localhost:5000/api/companies/${company_id}`,
+        `${import.meta.env.VITE_APP_URL}/api/companies/${company_id}`,
         {
           method: "GET",
           headers: getAuthToken(),
@@ -51,7 +51,7 @@ const Employees = () => {
   
       const companyData = await companyResponse.json()
   
-      const userResponse = await fetch("http://localhost:5000/api/companies/get-user-profile", {
+      const userResponse = await fetch(`${import.meta.env.VITE_APP_URL}/api/companies/get-user-profile`, {
         method: "GET",
         headers: getAuthToken()
       })
@@ -105,7 +105,7 @@ const Employees = () => {
   
     try {
       const response = await fetch(
-        `http://localhost:5000/api/employees/${company_id}/employees`,
+        `${import.meta.env.VITE_APP_URL}/api/employees/${company_id}/employees`,
         {
           method: "POST",
           headers: getAuthToken(),

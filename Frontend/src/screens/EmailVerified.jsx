@@ -11,7 +11,7 @@ const EmailVerified = () => {
   useEffect(() => {
 
     if (validationToken) {
-      fetch(`http://localhost:5000/api/auth/verify-email/${validationToken}`, {
+      fetch(`${import.meta.env.VITE_APP_URL}/api/auth/verify-email/${validationToken}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -19,7 +19,7 @@ const RecoveryPassword = () => {
       setErrorMessage("")
       setErrorClass("no-error")
 
-      fetch("http://localhost:5000/api/auth/recovery-password", {
+      fetch(`${import.meta.env.VITE_APP_URL}/api/auth/recovery-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

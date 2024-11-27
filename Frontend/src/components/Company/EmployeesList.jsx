@@ -16,7 +16,7 @@ const EmployeesList = ({
     const fetchEmployees = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/employees/${company_id}/get-employees`,
+          `${import.meta.env.VITE_APP_URL}/api/employees/${company_id}/get-employees`,
           {
             method: "GET",
             headers: getAuthToken(),
@@ -63,7 +63,7 @@ const EmployeesList = ({
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/employees/${company_id}/update-employee/${editingEmployee._id}`,
+        `${import.meta.env.VITE_APP_URL}/api/employees/${company_id}/update-employee/${editingEmployee._id}`,
         {
           method: "PUT",
           headers: getAuthToken(),
@@ -97,7 +97,7 @@ const EmployeesList = ({
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/employees/${company_id}/delete-employee/${id}`,
+        `${import.meta.env.VITE_APP_URL}/api/employees/${company_id}/delete-employee/${id}`,
         {
           method: "DELETE",
           headers: getAuthToken(),

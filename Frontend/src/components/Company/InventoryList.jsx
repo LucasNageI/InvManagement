@@ -35,7 +35,7 @@ const InventoryList = ({
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/inventory/${company_id}/update-inventory/${editingItem._id}`,
+        `${import.meta.env.VITE_APP_URL}/api/inventory/${company_id}/update-inventory/${editingItem._id}`,
         {
           method: "PUT",
           headers: getAuthToken(),
@@ -69,7 +69,7 @@ const InventoryList = ({
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/inventory/${company_id}/delete-inventory-item/${id}`,
+        `${import.meta.env.VITE_APP_URL}/api/inventory/${company_id}/delete-inventory-item/${id}`,
         {
           method: "DELETE",
           headers: getAuthToken(),
