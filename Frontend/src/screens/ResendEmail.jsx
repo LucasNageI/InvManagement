@@ -27,7 +27,7 @@ function ResendEmail() {
 
       if (!response.ok) {
         const errorData = await response.json()
-        console.log("Server error:", errorData)
+        console.error("Server error:", errorData)
         throw new Error("Error sending email")
       }
 

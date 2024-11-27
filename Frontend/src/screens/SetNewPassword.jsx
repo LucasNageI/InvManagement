@@ -16,9 +16,6 @@ const SetNewPassword = () => {
     const password = event.target.password.value
     const confirm_password = event.target["confirm-password"].value
     const token = new URLSearchParams(window.location.search).get("token")
-    console.log("Token:", token)
-    console.log("Password:", password)
-    console.log("Confirm Password:", confirm_password)
 
     if (!passwordVerification(password)) {
       setErrorMessage(
@@ -45,7 +42,6 @@ const SetNewPassword = () => {
         )
 
         const data = await response.json()
-        console.log("Response data:", data)
 
         if (data.success) {
           setSuccessMessage("Password updated successfully.")
