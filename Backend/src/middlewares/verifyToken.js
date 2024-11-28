@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken"
-import responseBuilder from "../helpers/builders/responseBuilder.js"
+import ResponseBuilder from "../helpers/builders/responseBuilder.js"
 
 export const authenticateToken = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1]
+  const responseBuilder = new ResponseBuilder()
 
   if (!token) {
     return res.status(401).json(responseBuilder

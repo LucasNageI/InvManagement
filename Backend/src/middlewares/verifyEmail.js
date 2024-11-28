@@ -1,6 +1,6 @@
-import responseBuilder from "../helpers/builders/responseBuilder.js"
 import jwt from "jsonwebtoken"
 import User from "../models/UserModel.js"
+import ResponseBuilder from "../helpers/builders/responseBuilder.js"
 
 export const verifyEmailVerified = async (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1]
@@ -8,6 +8,8 @@ export const verifyEmailVerified = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
     const user = await User.findById(decoded.userId)
+    const responseBuilder = new ResponseBuilder()
+    
 
     if (!user) {
       return res.status(404).json(
