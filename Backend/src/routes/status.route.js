@@ -2,7 +2,7 @@ import express from "express"
 
 const router = express.Router()
 
-router.get("/", (req, res) => {
+router.post("/", (req, res) => {
   res.status(200).json({ message: "Server running successfully" })
 })
 
