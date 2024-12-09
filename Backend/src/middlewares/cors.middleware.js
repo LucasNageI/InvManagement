@@ -1,8 +1,8 @@
-import { FRONTEND_URL } from "../config/environment.js"
+import ENVIRONMENT from "../config/environment.js"
 
-export const customCorsMiddleware = (req, res, next) => {
+const customCorsMiddleware = (req, res, next) => {
   const origin = req.headers.origin
-  const allowedOrigins = [FRONTEND_URL]
+  const allowedOrigins = [ENVIRONMENT.FRONTEND_URL]
 
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin)
@@ -12,3 +12,5 @@ export const customCorsMiddleware = (req, res, next) => {
   res.setHeader("Access-Control-Allow-Credentials", "true")
   next()
 }
+
+export default customCorsMiddleware

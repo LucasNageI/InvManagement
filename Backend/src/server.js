@@ -1,5 +1,4 @@
 import express from "express"
-import cors from "cors"
 import dotenv from "dotenv"
 
 import statusRouter from "./routes/status.route.js"
@@ -9,6 +8,7 @@ import inventoryRouter from "./routes/inventory.route.js"
 import employeesRouter from "./routes/employees.route.js"
 import connectDB from "./config/db.config.js"
 import ENVIRONMENT from "./config/environment.js"
+import customCorsMiddleware from "./middlewares/cors.middleware.js"
 
 dotenv.config()
 
