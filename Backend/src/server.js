@@ -18,13 +18,7 @@ const app = express()
 
 connectDB()
 
-const corsOptions = {
-  origin: ENVIRONMENT.FRONTEND_URL,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}
-
-app.use(cors(corsOptions))
+app.use(customCorsMiddleware)
 app.use(express.json())
 
 app.use("/api/status", statusRouter)
