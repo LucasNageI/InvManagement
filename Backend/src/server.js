@@ -12,7 +12,7 @@ import customCorsMiddleware from "./middlewares/cors.middleware.js"
 
 dotenv.config()
 
-const PORT = ENVIRONMENT.PORT || 5000
+const PORT = process.env.PORT || ENVIRONMENT.API_PORT
 
 const app = express()
 

@@ -2,7 +2,7 @@ import ENVIRONMENT from "../config/environment.js"
 
 const customCorsMiddleware = (req, res, next) => {
   const origin = req.headers.origin
-  const allowedOrigins = [ENVIRONMENT.FRONTEND_URL]
+  const allowedOrigins = [ENVIRONMENT.FRONTEND_URL, "http://localhost:5173"]
 
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin)
