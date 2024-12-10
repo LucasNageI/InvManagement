@@ -6,10 +6,16 @@ const customCorsMiddleware = (req, res, next) => {
 
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin)
+    res.setHeader("Access-Control-Allow-Credentials", "true")
   }
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type")
-  res.setHeader("Access-Control-Allow-Credentials", "true")
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, X-Requested-With"
+  )
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204)
+  }
   next()
 }
 
